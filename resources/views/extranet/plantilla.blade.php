@@ -17,7 +17,7 @@
     @yield('css_pagina')
     <style>
         body {
-            background-image: linear-gradient(to bottom right, #f9cc5d, #f38782, #3359fa 85%);
+            /*background-image: linear-gradient(to bottom right, #f9cc5d, #f38782, #3359fa 85%);
             /* background-image: linear-gradient(to right, {{ $parametro->fondo1 }}, {{ $parametro->fondo2 }}); */
             /* background-image: url({{ asset('imagenes/img-inicio/img-principal-inicio4.jpg') }});
             background-size: cover; */

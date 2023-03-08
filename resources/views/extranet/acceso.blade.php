@@ -14,10 +14,10 @@
             </div>
             <div class="row justify-content-center" style="font-size: 0.8em;">
                 <div class="col-10 col-sm-8 col-md-6 mt-5">
-                    <div class="card">
+                    <div class="card" style="background-image: linear-gradient(to bottom right, #ffeb3b,  #3359fa 85%);">
                         <div class="card-body">
-                            <img src="{{ asset('imagenes/sistema/logofull.png') }}" class="rounded mx-auto d-block" alt="...">
-                            <div class="card-text mt-3">
+                            <img src="{{ asset('imagenes/sistema/logofull.png') }}" class="rounded mx-auto d-block" style="max-width: 350px;" alt="...">
+                            <div class="card-text mt-5">
                                 <form action="{{ route('login') }}" method="post" autocomplete="off">
                                     @method('post')
                                     @csrf
@@ -38,10 +38,6 @@
                                         <div class="centrar-items">
                                             <a href="{{ route('registro_ini') }}" class="mt-2 btn btn-primary">Registrarse</a>
                                         </div>
-                                    </div>
-                                    <div class="centrar-items mt-4">
-                                        <p><a class="card-text h6" href="{{ route('solicitar_password') }}">Olvidé mi nombre
-                                                de usuario o contraseña bromelias</a></p>
                                     </div>
                                 </form>
                             </div>
