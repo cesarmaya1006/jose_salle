@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/extranet/general.css') }}">
     <link rel="stylesheet" href="{{ asset('lte/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('lte/dist/css/adminlte.min.css') }}">
-    <title>Quiku</title>
+    <title>Proyectyos la Salle</title>
     @yield('css_pagina')
     <style>
         body {
