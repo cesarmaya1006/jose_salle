@@ -5,62 +5,11 @@
             <option value="">Elija un Rol</option>
             @foreach ($roles as $id => $nombre)
                 <option value="{{ $id }}"
-                    {{ is_array(old('rol_id')) ? (in_array($id, old('rol_id')) ? 'selected' : '') : (isset($data) ? ($data->roles->firstWhere('id', $id) ? 'selected' : '') : '') }}>
+                    {{ is_array(old('rol_id')) ? (in_array($id, old('rol_id')) ? 'selected' : '') : (isset($data) ? ($data->usuario->roles->firstWhere('id', $id) ? 'selected' : '') : '') }}>
                     {{ $nombre }}</option>
             @endforeach
         </select>
     </div>
-    <!--  ------------------------------------------------------------------------------------  -->
-    <div class="col-10 col-md-2 form-group cajasAreas">
-        <label for="area_id" class="requerido">Área de trabajo</label>
-        <select name="area_id" id="area_id" class="form-control"  data_url="{{route('cargar_cargos')}}">
-            <option value="">Elija un Area</option>
-            @foreach ($areas as $area)
-                <option value="{{ $area->id }}"
-                    {{ is_array(old('area_id')) ? (in_array($id, old('area_id')) ? 'selected' : '') : (isset($data) ? ($data->area->firstWhere('id', $id) ? 'selected' : '') : '') }}>
-                    {{ $area->area }}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="col-10 col-md-2 form-group cajasAreas">
-        <label for="cargo_id" class="requerido">Cargo Laboral</label>
-        <select name="cargo_id" id="cargo_id" class="form-control" >
-            <option value="">Elija primero un Area</option>
-            @if (isset($data))
-            @foreach ($data->cargos as $cargo)
-                <option value="{{ $cargo->id }}"
-                    {{ is_array(old('cargo_id')) ? (in_array($id, old('cargo_id')) ? 'selected' : '') : (isset($data) ? ($data->cargo->firstWhere('id', $id) ? 'selected' : '') : '') }}>
-                    {{ $cargo->cargo }}</option>
-            @endforeach
-            @endif
-        </select>
-    </div>
-    <!--  ------------------------------------------------------------------------------------  -->
-    <div class="col-10 col-md-2 form-group cajasFacultades">
-        <label for="facultad_id" class="requerido">Facultad</label>
-        <select name="facultad_id" id="facultad_id" class="form-control"   data_url="{{route('cargar_carreras')}}">
-            <option value="">Elija una facultad</option>
-            @foreach ($facultades as $facultad)
-                <option value="{{ $facultad->id }}"
-                    {{ is_array(old('facultad_id')) ? (in_array($id, old('facultad_id')) ? 'selected' : '') : (isset($data) ? ($data->facultad->firstWhere('id', $id) ? 'selected' : '') : '') }}>
-                    {{ $facultad->facultad }}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="col-10 col-md-2 form-group cajasFacultades">
-        <label for="carrera_id" class="requerido">Carrera</label>
-        <select name="carrera_id" id="carrera_id" class="form-control"  >
-            <option value="">Elija primero una Facultad</option>
-            @if (isset($data))
-            @foreach ($data->carreras as $carrera)
-                <option value="{{ $carrera->id }}"
-                    {{ is_array(old('carrera_id')) ? (in_array($id, old('carrera_id')) ? 'selected' : '') : (isset($data) ? ($data->carrera->firstWhere('id', $id) ? 'selected' : '') : '') }}>
-                    {{ $carrera->carrera }}</option>
-            @endforeach
-            @endif
-        </select>
-    </div>
-    <!--  ------------------------------------------------------------------------------------  -->
 </div>
 <div class="row d-flex justify-content-evenly">
     <div class="col-10 col-md-2 form-group">
@@ -129,39 +78,17 @@
             required>
         <small id="helpId" class="form-text text-muted">Dirección</small>
     </div>
-    <div class="col-10 col-md-2 form-group">
-        <label for="vigencia" class="requerido">Vigencia</label>
-        <div class="input-group date" data-provide="datepicker">
-            <input type="date" class="form-control" name="vigencia" id="vigencia">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-            </div>
-        </div>
-        <small id="helpId" class="form-text text-muted">Fotografía</small>
-    </div>
 </div>
 <div class="row d-flex justify-content-evenly">
     <div class="col-10 col-md-2 form-group">
-        <label for="foto" class="requerido">Fotografía</label>
-        <input type="file" class="form-control" id="foto" name="foto" placeholder="Foto del usuario"  accept="image/png,image/jpeg" onchange="mostrar()" required>
+        <label for="foto">Fotografía</label>
+        <input type="file" class="form-control" id="foto" name="foto" placeholder="Foto del usuario"  accept="image/png,image/jpeg" onchange="mostrar()">
         <small id="helpId" class="form-text text-muted">Fotografía</small>
     </div>
-    @if (!isset($data))
-    <div class="col-10 col-md-2 form-group float-none">
-        <label for="password" class="requerido">Contrase&ntilde;a</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-        <small id="helpId" class="form-text text-muted">Contrase&ntilde;a</small>
-    </div>
-    <div class="col-10 col-md-2 form-group float-left">
-        <label for="re_password" class="requerido">Confirmaci&oacute;n Contrase&ntilde;a</label>
-        <input type="password" class="form-control" id="re_password" name="re_password" required>
-        <small id="helpId" class="form-text text-muted">Confirmaci&oacute;n Contrase&ntilde;a</small>
-    </div>
-    @endif
     <div class="col-12">
         <div class="row d-flex justify-content-evenly">
             <div class="col-10 col-md-2">
-                <img class="img-fluid fotoUsuario" id="fotoUsuario" src="{{asset('/imagenes/usuarios/usuario-inicial.jpg')}}" alt="">
+                <img class="img-fluid fotoUsuario" id="fotoUsuario" src="{{asset( isset($data)?'/imagenes/usuarios/'.$data->foto:'/imagenes/usuarios/usuario-inicial.jpg') }}" alt="">
             </div>
         </div>
     </div>

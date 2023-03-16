@@ -35,7 +35,7 @@ class ExtranetPageController extends Controller
      */
     public function index()
     {
-        return view('extranet.acceso');
+        return view('extranet.login2');
     }
 
     public function solicitar_password()
@@ -389,9 +389,9 @@ class ExtranetPageController extends Controller
     {
         $option = $request['option'];
         if($option == 1){
-            $tipos = Tipo_Docu::where('abreb_id', '!=', 'NIT')->get(); 
+            $tipos = Tipo_Docu::where('abreb_id', '!=', 'NIT')->get();
         }elseif($option == 2){
-            $tipos = Tipo_Docu::where('abreb_id', 'NIT')->get(); 
+            $tipos = Tipo_Docu::where('abreb_id', 'NIT')->get();
         }else{
             $tipos = [];
         }

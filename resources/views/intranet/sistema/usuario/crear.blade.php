@@ -14,7 +14,7 @@
 <!-- ************************************************************* -->
 <!-- titulo hoja -->
 @section('cuerpo_pagina')
-    <div class="card" style="border-top: 8px solid rgb(38, 160, 241);">
+    <div class="card">
         @include('includes.error-form')
         @include('includes.mensaje')
         <div class="card-header">

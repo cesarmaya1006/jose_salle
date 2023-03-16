@@ -8,19 +8,19 @@
 <!-- ************************************************************* -->
 <!-- titulo hoja -->
 @section('tituloHoja')
-    Crear Roles
+    Editar Usuario
 @endsection
 <!-- ************************************************************* -->
 <!-- ************************************************************* -->
 <!-- titulo hoja -->
 @section('cuerpo_pagina')
-    <div class="card" style="border-top: 8px solid rgb(38, 160, 241);">
+    <div class="card">
         {{ $mensaje ?? '' }}
         @include('includes.error-form')
         @include('includes.mensaje')
         <div class="card-header">
             <h3 class="card-title">
-                <font style="vertical-align: inherit;">Nuevo Usuario (datos b&aacute;sicos)</font>
+                <font style="vertical-align: inherit;">Edición Usuario (datos b&aacute;sicos)</font>
             </h3>
         </div>
         <!-- /.card-header -->
@@ -33,7 +33,7 @@
                 @include('intranet.sistema.usuario.form')
             </div>
             <!-- /.card-body -->
-            <div class="card-footer">
+            <div class="card-footer mt-3 mb-5">
                 @include('includes.botones_editar')
             </div>
             <!-- /.card-footer -->

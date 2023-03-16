@@ -35,8 +35,7 @@
                             class="btn btn-info btn-xs pl-4 pr-4 btn-sombra float-right ml-5">
                             <i class="fa fa-fw fa-plus-circle"></i> Nuevo registro
                         </a>
-                        <a href="{{ route('usuarios-importar') }}"
-                            class="btn btn-warning btn-xs pl-4 pr-4 btn-sombra float-right">Carga Masiva</a>
+
                     </div>
                 </div>
             </div>
@@ -45,23 +44,20 @@
                 @foreach ($roles as $rol)
                     <div class="row">
                         <div class="col-6 mt-3 mb-2 mr-5">
-                            <h3>{{ $rol->nombre }}s</h3>
+                            <h3>{{ $rol->nombre }}</h3>
                             <p>Cantidad: {{$rol->usuarios->count()}}</p>
                         </div>
                         <div class="col-12 col-md-11 table-responsive">
-                            <table class="table table-striped table-bordered table-hover display_excel">
+                            <table class="table table-striped table-bordered table-hover display_excel tabla-borrando">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th class="text-center" scope="col">Id</th>
                                         <th class="text-center" scope="col">Usuario</th>
-                                        <th class="text-center" scope="col">{{$rol->id==3?'Area':'Facultad'}}</th>
-                                        <th class="text-center" scope="col">{{$rol->id==3?'Cargo':'Carrera'}}</th>
                                         <th class="text-center" scope="col">N. Identificacion</th>
                                         <th class="text-center" scope="col">Nombres y Apellidos</th>
                                         <th class="text-center" scope="col">Telefono</th>
                                         <th class="text-center" scope="col">Dirección</th>
                                         <th class="text-center" scope="col">Email</th>
-                                        <th class="text-center" scope="col">Vigencia</th>
                                         <th class="text-center" scope="col">Estado</th>
                                         <th class="text-center" scope="col">Opciones</th>
                                     </tr>
@@ -72,27 +68,26 @@
                                             <tr>
                                                 <td class="text-center text-nowrap">{{ $usuario->id }}</td>
                                                 <td class="text-center text-nowrap">{{ $usuario->usuario }}</td>
-                                                <td class="text-left text-nowrap">{{$rol->id==3?$usuario->persona->cargo->area->area:$usuario->persona->carrera->facultad->facultad}}</td>
-                                                <td class="text-left text-nowrap">{{$rol->id==3?$usuario->persona->cargo->cargo:$usuario->persona->carrera->carrera}}</td>
                                                 <td class="text-left text-nowrap">{{$usuario->persona->identificacion}}</td>
                                                 <td class="text-left text-nowrap">{{$usuario->persona->nombre1 . ' ' . $usuario->persona->nombre2 . ' ' . $usuario->persona->apellido1 . ' ' . $usuario->persona->apellido2}}</td>
                                                 <td class="text-right text-nowrap">{{$usuario->persona->telefono_celu}}</td>
                                                 <td class="text-left text-nowrap">{{$usuario->persona->direccion}}</td>
                                                 <td class="text-left text-nowrap">{{$usuario->persona->email}}</td>
-                                                <td class="text-center text-nowrap">{{$usuario->persona->vigencia}}</td>
                                                 <td class="text-center text-nowrap">{{$usuario->persona->estado==1?'Activo':'Inactivo'}}</td>
                                                 <td class="text-center text-nowrap">
-                                                    <button
-                                                        type="button"
-                                                        class="btn-accion-tabla cargarUsuarios tooltipsC"
-                                                        title="Ver el Carnet"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalCarnet"
-                                                        data_id="{{$usuario->persona->id}}"
-                                                        data_url="{{route('usuarios-cargar',['id'=>$usuario->persona->id])}}"
-                                                        data_foto={{ asset('imagenes/usuarios/1.jpg') }}>
-                                                        <i class="fa fa-id-card text-success"></i>
-                                                    </button>
+                                                    <a href="{{ route('admin-usuario-editar', ['id' => $usuario->persona->id]) }}"
+                                                        class="btn-accion-tabla tooltipsC" title="Editar este registro">
+                                                        <i class="fas fa-pen-square"></i>
+                                                    </a>
+                                                    <form action="{{ route('admin-usuario-eliminar', ['id' => $usuario->persona->id]) }}"
+                                                        class="d-inline form-eliminar" method="POST">
+                                                        @csrf @method("delete")
+                                                        <button type="submit" class="btn-accion-tabla eliminar tooltipsC"
+                                                            title="Eliminar este registro">
+                                                            <i class="fa fa-fw fa-trash text-danger"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -159,3 +159,6 @@ label.requerido:after {
     background-color: #ffffff;
     border-radius: 5px;
 }
+.card{
+    border-top: 8px solid #fbb800;
+}

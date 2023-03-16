@@ -37,7 +37,7 @@ class Tabla_Menu extends Seeder
             ['nombre' =>  'Cambiar contraseña', 'menu_id' => '9', 'url' =>  'usuario/cambiar-password', 'orden' => '4', 'icono' =>  'fas fa-key'],
             //------------------------------------------------------------------------------------------------------------
             //14
-            ['nombre' =>  'Parametros', 'menu_id' => '0', 'url' =>  '#', 'orden' => '4', 'icono' =>  'fas fa-cogs'],
+            ['nombre' =>  'Parametros', 'menu_id' => '0', 'url' =>  'parametros-index', 'orden' => '4', 'icono' =>  'fas fa-cogs'],
 
             //----------------------------------------------------------------------------------------------------------------------
 

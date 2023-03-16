@@ -2,7 +2,7 @@
     <div class="pantallaMenuLat" style="width: 100%;height: 100%;background-color: rgba(255, 255, 255, 0.6)">
         <!-- Brand Logo -->
         <a href="#" class="brand-link"
-            style=" background-image: linear-gradient(to bottom right, #009CFF, #1DD600);">
+            style=" background-image: linear-gradient(to bottom right, #FFF, #fbb800);">
             <img src="{{ asset('imagenes/sistema/logo.png') }}" alt="Sistema Prueba"
                 class="brand-image img-circle elevation-3" style="opacity: .9;max-width: 80px;">
             <div class="row">
