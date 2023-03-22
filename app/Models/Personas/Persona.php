@@ -47,4 +47,9 @@ class Persona extends Model
         return $this->hasMany(SegFaseNota::class, 'personas_id', 'id');
     }
     //----------------------------------------------------------------------------------
+    public function propuestas()
+    {
+        return $this->belongsToMany(Propuesta::class, 'propuesta_jurados');
+    }
+    //----------------------------------------------------------------------------------
 }

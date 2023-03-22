@@ -27,6 +27,17 @@ class Propuesta extends Model
     {
         return $this->belongsTo(Propuesta::class, 'id');
     }
+    //----------------------------------------------------------------------------------
+    public function jurados()
+    {
+        return $this->belongsToMany(Persona::class, 'propuesta_jurados');
+    }
+    //----------------------------------------------------------------------------------
+    public function componentes()
+    {
+        return $this->hasMany(PrimFaseComponente::class, 'propuestas_id', 'id');
+    }
+    //----------------------------------------------------------------------------------
 
 }
 

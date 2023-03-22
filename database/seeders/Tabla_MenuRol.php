@@ -29,6 +29,7 @@ class Tabla_MenuRol extends Seeder
             ['rol_id' => '1', 'menu_id' => '12'],
             ['rol_id' => '1', 'menu_id' => '13'],
             ['rol_id' => '1', 'menu_id' => '14'],
+            ['rol_id' => '1', 'menu_id' => '15'],
             ['rol_id' => '2', 'menu_id' => '1'],
             ['rol_id' => '2', 'menu_id' => '2'],
             ['rol_id' => '2', 'menu_id' => '8'],
@@ -38,6 +39,7 @@ class Tabla_MenuRol extends Seeder
             ['rol_id' => '2', 'menu_id' => '12'],
             ['rol_id' => '2', 'menu_id' => '13'],
             ['rol_id' => '2', 'menu_id' => '14'],
+            ['rol_id' => '2', 'menu_id' => '15'],
         ];
 
         foreach ($tipos as $tipo) {

@@ -30,15 +30,17 @@ class Tabla_Menu extends Seeder
             ['nombre' =>  'Usuarios', 'menu_id' => '2', 'url' =>  'admin/usuarios', 'orden' => '6', 'icono' =>  'fas fa-user-friends'],
             //------------------------------------------------------------------------------------------------------------
             //9
-            ['nombre' =>  'Otras opciones', 'menu_id' => '0', 'url' =>  '#', 'orden' => '3', 'icono' =>  'fas fa-question-circle'],
+            ['nombre' =>  'Otras opciones', 'menu_id' => '0', 'url' =>  '#', 'orden' => '4', 'icono' =>  'fas fa-question-circle'],
             ['nombre' =>  'Consulte nuestas políticas de datos', 'menu_id' => '9', 'url' =>  'usuario/consulta-politicas', 'orden' => '1', 'icono' =>  'fas fa-question-circle'],
             ['nombre' =>  'Ayuda', 'menu_id' => '9', 'url' =>  'usuario/ayuda', 'orden' => '2', 'icono' =>  'fas fa-question-circle'],
             ['nombre' =>  'Actualizar datos', 'menu_id' => '9', 'url' =>  'usuario/actualizar-datos', 'orden' => '3', 'icono' =>  'fas fa-edit'],
             ['nombre' =>  'Cambiar contraseña', 'menu_id' => '9', 'url' =>  'usuario/cambiar-password', 'orden' => '4', 'icono' =>  'fas fa-key'],
             //------------------------------------------------------------------------------------------------------------
             //14
-            ['nombre' =>  'Parametros', 'menu_id' => '0', 'url' =>  'parametros-index', 'orden' => '4', 'icono' =>  'fas fa-cogs'],
-
+            ['nombre' =>  'Parametros', 'menu_id' => '0', 'url' =>  'parametros-index', 'orden' => '5', 'icono' =>  'fas fa-cogs'],
+            //----------------------------------------------------------------------------------------------------------------------
+            //15
+            ['nombre' =>  'Propuestas', 'menu_id' => '0', 'url' =>  'propuestas', 'orden' => '3', 'icono' =>  'fas fa-folder-open'],
             //----------------------------------------------------------------------------------------------------------------------
 
         ];

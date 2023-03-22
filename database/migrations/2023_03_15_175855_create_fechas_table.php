@@ -15,9 +15,10 @@ class CreateFechasTable extends Migration
     {
         Schema::create('fechas', function (Blueprint $table) {
             $table->bigIncrements('id')->autoIncrement();
-            $table->date('fec_inicial_reg');
-            $table->date('fec_final_reg');
-            $table->date('fec_final_cal');
+            $table->date('fec_inicial_reg')->nullable();
+            $table->date('fec_final_reg')->nullable();
+            $table->date('fec_final_cal')->nullable();
+            $table->date('fec_final_cal_seg')->nullable();
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_spanish_ci';

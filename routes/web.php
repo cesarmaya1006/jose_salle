@@ -13,6 +13,7 @@ use App\Http\Controllers\Intranet\Admin\PermisoRolController;
 use App\Http\Controllers\Intranet\Admin\IntranetPageCotroller;
 use App\Http\Controllers\Intranet\Carnet\CarnetController as CarnetCarnetController;
 use App\Http\Controllers\Intranet\Empresas\CargoController;
+use App\Http\Controllers\Intranet\Universidad\PropuestaController;
 use App\Http\Controllers\Universidad\CarreraController;
 use App\Http\Controllers\Universidad\DependenciaController;
 use App\Http\Controllers\Universidad\FacultadController;
@@ -122,19 +123,26 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('usuario/{id}/editar', [UsuarioController::class,'editar',])->name('admin-usuario-editar');
             Route::put('usuario/{id}', [UsuarioController::class,'actualizar',])->name('admin-usuario-actualizar');
             Route::delete('usuario/{id}', [UsuarioController::class,'eliminar',])->name('admin-usuario-eliminar');
-            // ------------------------------------------------------------------------------------
 
         });
         // ------------------------------------------------------------------------------------
     });
     Route::group(['middleware' => 'administrador'], function () {
         // Ruta Parametros
-        Route::get('parametros-index', [ParametrosController::class,'index',])->name('admin-parametros-index');
+        Route::get('parametros-index', [ParametrosController::class,'index',])->name('parametros-index');
+        // ------------------------------------------------------------------------------------
+        Route::post('fechas', [ParametrosController::class,'fechas',])->name('parametros-fechas');
         // ------------------------------------------------------------------------------------
     });
+    Route::get('propuestas', [PropuestaController::class,'index',])->name('propuestas');
+    Route::get('propuestas-index', [PropuestaController::class,'propuestas',])->name('propuestas-index');
+    Route::get('propuestas-crear', [PropuestaController::class,'propuestas_crear',])->name('propuestas-crear');
+    Route::post('propuestas-guardar', [PropuestaController::class, 'propuestas_guardar'])->name('propuestas-guardar');
+    Route::get('propuestas-editar/{id}', [PropuestaController::class,'propuestas_editar',])->name('propuestas-editar');
+    Route::put('propuestas-actualizar/{id}', [PropuestaController::class,'propuestas_actualizar',])->name('propuestas-actualizar');
+    Route::post('propuestas-guardar_categorias', [PropuestaController::class, 'propuestas_guardar_categorias'])->name('propuestas-guardar_categorias');
+    Route::get('componente/{id}', [PropuestaController::class,'componente_eliminar',])->name('componente-eliminar');
 
-    Route::group(['prefix' => 'parametros'], function () {
-        //Route::get('index', [ParametrosController::class,'index',])->name('admin-parametros-index');
-    });
+
 });
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

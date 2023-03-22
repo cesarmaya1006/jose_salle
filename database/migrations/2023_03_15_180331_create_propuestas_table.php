@@ -21,7 +21,8 @@ class CreatePropuestasTable extends Migration
             $table->foreign('personas_id','fk_propuesta_personas')->references('id')->on('personas')->onDelete('cascade')->onUpdate('cascade');
             $table->string('titulo',255);
             $table->longText('descripcion')->nullable();
-            $table->float('promedio', 2, 2)->nullable();
+            $table->float('promedio_primera', 2, 2)->nullable();
+            $table->float('promedio_segunda', 2, 2)->nullable();
             $table->integer('estado')->nullable();
             $table->timestamps();
             $table->charset = 'utf8';

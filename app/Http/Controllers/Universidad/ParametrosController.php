@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Universidad;
 
 use App\Http\Controllers\Controller;
+use App\Models\Universidad\Fecha;
 use Illuminate\Http\Request;
 
 class ParametrosController extends Controller
@@ -13,8 +14,12 @@ class ParametrosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('intranet.parametros.index');
+    { $data=[];
+        $fechas = Fecha::get();
+        if ($fechas->count()) {
+            $data['fechas'] = $fechas[0];
+        }
+        return view('intranet.parametros.index',compact('data'));
     }
 
     /**
@@ -22,9 +27,20 @@ class ParametrosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function fechas(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $fechas = Fecha::get();
+            if ($fechas->count()) {
+                Fecha::findOrFail(1)->update($request->all());
+                return response()->json(['mensaje' => 'ok']);
+            }else{
+                Fecha::create($request->all());
+                return response()->json(['mensaje' => 'ok']);
+            }
+        } else {
+            abort(404);
+        }
     }
 
     /**
