@@ -56,7 +56,9 @@
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Nota Promedio 1era Fase</th>
                                     <th class="text-center">Nota Promedio 1era Fase</th>
+                                    @if (session('rol_id') < 3)
                                     <th class="text-center">Pasa SI / NO</th>
+                                    @endif
                                     <th></th>
                                 </tr>
                             </thead>
@@ -64,20 +66,22 @@
                                 @foreach ($propuestas as $propuesta)
                                     <tr>
                                         <td>
-                                            <a href="#"
-                                                class="btn-accion-tabla tooltipsC text-info" title="Editar"><i
-                                                    class="fa fa-edit" aria-hidden="true"></i></a>
+                                            <a href="{{route('propuestas-ver',['id' => $propuesta->id])}}"
+                                                class="btn-accion-tabla tooltipsC text-info" title="Ver Propuesta"><i
+                                                    class="fa fa-eye" aria-hidden="true"></i></a>
                                         </td>
                                         <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
-                                        <td class="text-center">{{ $propuesta->id }}</td>
+                                        <td class="text-center">{{ $propuesta->categoria->categoria }}</td>
+                                        <td class="text-center">{{ $propuesta->emprendedor->nombre1 }} {{ $propuesta->emprendedor->nombre2!=null? ' ' .$propuesta->emprendedor->nombre2:'' }} {{ ' '.$propuesta->emprendedor->apellido1 }} {{ $propuesta->emprendedor->apellido!=null? ' ' .$propuesta->emprendedor->apellido:'' }}</td>
+                                        <td class="text-center">{{ $propuesta->titulo }}</td>
+                                        <td class="text-center">{{ $propuesta->descripcion??'' }}</td>
+                                        <td class="text-center">{{ $propuesta->componentesFaseUno->Count() }}</td>
+                                        <td class="text-center">{{ $propuesta->estado=1?'Sin carga completa':$propuesta->estado=2?'1era fase Cargada':$propuesta->estado=3?'1era fase calificada' :$propuesta->estado=4?'2da fase sin calificar':'Calificado' }}</td>
+                                        <td class="text-center">{{ $propuesta->promedio_primera??'Sin Calificación' }}</td>
+                                        <td class="text-center">{{ $propuesta->promedio_segunda??'Sin Calificación' }}</td>
+                                        @if (session('rol_id') < 3)
+                                        <td class="text-center">{{ $propuesta->promedio_segunda==null?'N/A': ($propuesta->promedio_segunda>3?'Pasa':'No pasa')}}</td>
+                                        @endif
                                         <td class="text-center">
                                             <a href="{{ route('propuestas-editar', ['id' => $propuesta->id]) }}"
                                                 class="btn-accion-tabla tooltipsC text-info" title="Editar"><i

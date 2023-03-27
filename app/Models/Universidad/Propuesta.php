@@ -20,7 +20,7 @@ class Propuesta extends Model
     //----------------------------------------------------------------------------------
     public function emprendedor()
     {
-        return $this->hasOne(Persona::class, 'id');
+        return $this->hasOne(Persona::class, 'id','personas_id');
     }
     //----------------------------------------------------------------------------------
     public function documento()
@@ -33,9 +33,14 @@ class Propuesta extends Model
         return $this->belongsToMany(Persona::class, 'propuesta_jurados');
     }
     //----------------------------------------------------------------------------------
-    public function componentes()
+    public function componentesFaseUno()
     {
         return $this->hasMany(PrimFaseComponente::class, 'propuestas_id', 'id');
+    }
+    //----------------------------------------------------------------------------------
+    public function componentesFaseDos()
+    {
+        return $this->hasMany(SegFaseComponente::class, 'propuestas_id', 'id');
     }
     //----------------------------------------------------------------------------------
 

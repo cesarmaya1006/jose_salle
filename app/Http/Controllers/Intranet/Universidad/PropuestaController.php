@@ -9,6 +9,7 @@ use App\Models\Personas\Persona;
 use App\Models\Universidad\Categoria;
 use App\Models\Universidad\PrimFaseComponente;
 use App\Models\Universidad\Propuesta;
+use App\Models\Universidad\SegFaseComponente;
 use Illuminate\Http\Request;
 
 class PropuestaController extends Controller
@@ -38,6 +39,16 @@ class PropuestaController extends Controller
      */
     public function propuestas()
     {
+        if (session('rol_id') < 3) {
+            $propuestas = Propuesta::get();
+        } elseif(session('rol_id') == 3) {
+            $propuestas = Propuesta::whereHas('jurados', function ($q) {
+                $q->where('id', session('rol_id'));
+            })->get();
+        }else{
+            $propuestas = Propuesta::where('personas_id',session('rol_id'))->get();
+        }
+
         $propuestas = Propuesta::get();
         return view('intranet.propuestas.admin.propuestas.index',compact('propuestas'));
     }
@@ -72,7 +83,7 @@ class PropuestaController extends Controller
             $categoria = Categoria::create($request->all());
                 $categorias = Categoria::get();
                 return response()->json(['mensaje' => 'ok', 'categorias' => $categorias, 'categoria' => $categoria]);
-            
+
         } else {
             abort(404);
         }
@@ -97,6 +108,11 @@ class PropuestaController extends Controller
             $componente_new ['propuestas_id'] = $propuesta->id;
             $componente_new ['componente'] = $componente;
             PrimFaseComponente::create($componente_new);
+        }
+        foreach ($request['componentes_dos'] as $componente) {
+            $componente_new ['propuestas_id'] = $propuesta->id;
+            $componente_new ['componente'] = $componente;
+            SegFaseComponente::create($componente_new);
         }
         $propuestas = Propuesta::get();
         $mensaje = 'Propuesta creada con exito';
@@ -139,6 +155,12 @@ class PropuestaController extends Controller
             $componente_new ['componente'] = $componente;
             PrimFaseComponente::create($componente_new);
         }
+        SegFaseComponente::where('propuestas_id',$id)->delete();
+        foreach ($request['componentes_dos'] as $componente) {
+            $componente_new ['propuestas_id'] = $propuesta->id;
+            $componente_new ['componente'] = $componente;
+            SegFaseComponente::create($componente_new);
+        }
         $propuestas = Propuesta::get();
         $mensaje = 'Propuesta creada con exito';
         return redirect('propuestas-index')->with('mensaje', 'Propuesta creada con exito');
@@ -161,5 +183,21 @@ class PropuestaController extends Controller
         } else {
             abort(404);
         }
+    }
+    public function componente_dos_eliminar(Request $request,$id)
+    {
+        if ($request->ajax()) {
+            if (SegFaseComponente::destroy($id)) {
+                return response()->json(['mensaje' => 'ok']);
+            } else {
+                return response()->json(['mensaje' => 'ng']);
+            }
+        } else {
+            abort(404);
+        }
+    }
+    public function propuestas_ver($id){
+        $propuesta = Propuesta::findOrFail($id);
+        return view('intranet.propuestas.admin.propuestas.ver',compact('propuesta'));
     }
 }

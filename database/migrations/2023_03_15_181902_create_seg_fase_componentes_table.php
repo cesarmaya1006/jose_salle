@@ -19,7 +19,7 @@ class CreateSegFaseComponentesTable extends Migration
             $table->foreign('propuestas_id', 'fk_componente_dos_propuestas')->references('id')->on('propuestas')->onDelete('restrict')->onUpdate('restrict');
             $table->string('componente',255);
             $table->float('not_promedio', 2, 2)->nullable();
-            $table->longText('observacion');
+            $table->longText('observacion')->nullable();
             $table->integer('estado')->default(0);
             $table->timestamps();
             $table->charset = 'utf8';

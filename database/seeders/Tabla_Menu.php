@@ -40,7 +40,7 @@ class Tabla_Menu extends Seeder
             ['nombre' =>  'Parametros', 'menu_id' => '0', 'url' =>  'parametros-index', 'orden' => '5', 'icono' =>  'fas fa-cogs'],
             //----------------------------------------------------------------------------------------------------------------------
             //15
-            ['nombre' =>  'Propuestas', 'menu_id' => '0', 'url' =>  'propuestas', 'orden' => '3', 'icono' =>  'fas fa-folder-open'],
+            ['nombre' =>  'Propuestas', 'menu_id' => '0', 'url' =>  'propuestas-index', 'orden' => '3', 'icono' =>  'fas fa-folder-open'],
             //----------------------------------------------------------------------------------------------------------------------
 
         ];

@@ -142,6 +142,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('propuestas-actualizar/{id}', [PropuestaController::class,'propuestas_actualizar',])->name('propuestas-actualizar');
     Route::post('propuestas-guardar_categorias', [PropuestaController::class, 'propuestas_guardar_categorias'])->name('propuestas-guardar_categorias');
     Route::get('componente/{id}', [PropuestaController::class,'componente_eliminar',])->name('componente-eliminar');
+    Route::get('componente_dos/{id}', [PropuestaController::class,'componente_dos_eliminar',])->name('componente_dos-eliminar');
+    Route::get('propuestas-ver/{id}', [PropuestaController::class,'propuestas_ver',])->name('propuestas-ver');
+
 
 
 });

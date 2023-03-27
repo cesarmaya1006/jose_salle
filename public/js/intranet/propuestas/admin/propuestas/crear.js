@@ -82,7 +82,7 @@ $(document).ready(function () {
                 $(this)
                 .find("input")
                 .attr("disabled", false);
-                
+
 
             var html_ ='';
             html_+='<button type="button" class="btn btn-danger btn-flat quitar_componente" title="Eliminar este registro"data_id="'+cont+'" onclick="quitar_componente('+cont+')"><i class="fa fa-fw fa-trash"></i></button>';
@@ -90,9 +90,49 @@ $(document).ready(function () {
             cont++;
         });
     });
-    
+    $("#anadirComponente_dos").on("click", function () {
+        var hijos = $("#cajaComponentes_dos").find(".componente_grupo_dos");
+        var cont = 0;
+        hijos.each(function () {
+            cont++;
+            $(this).clone().appendTo("#cajaComponentes_dos");
+            console.log(cont);
+        });
+        cont = 0;
+        var hijos2 = $("#cajaComponentes_dos").find(".componente_grupo_dos");
+        hijos2.each(function () {
+            if (cont > 0) {
+                $(this).removeClass("componente_grupo_dos d-none");
+                $(this).addClass("componente_grupo_dos_");
+            }
+            cont++;
+        });
+        var hijos3 = $("#cajaComponentes_dos").find(".componente_grupo_dos_");
+        cont = 1;
+        hijos3.each(function () {
+            $(this).attr("id", "componente_grupo_dos_" + cont);
+            $(this)
+                .find("label")
+                .attr("for", "componente_dos" + cont);
+            $(this)
+                .find("label")
+                .html("componente " + cont);
+                $(this)
+                .find("input")
+                .attr("id", "componente_dos_" + cont);
+                $(this)
+                .find("input")
+                .attr("disabled", false);
+
+
+            var html_ ='';
+            html_+='<button type="button" class="btn btn-danger btn-flat quitar_componente_dos" title="Eliminar este registro" data_id="'+cont+'" onclick="quitar_componente_dos('+cont+')"><i class="fa fa-fw fa-trash"></i></button>';
+            $(this).find("span").html(html_);
+            cont++;
+        });
+    });
 });
- function quitar_componente (id) { 
+ function quitar_componente (id) {
     var idCajon = id;
     console.log(idCajon);
     $("#componente_grupo_" + idCajon).remove();
@@ -114,5 +154,29 @@ $(document).ready(function () {
             html_+='<button type="button" class="btn btn-danger btn-flat quitar_componente" title="Eliminar este registro"data_id="'+cont+'" onclick="quitar_componente('+cont+')"><i class="fa fa-fw fa-trash"></i></button>';
             $(this).find("span").html(html_);
             cont++;
-        });    
+        });
+  }
+  function quitar_componente_dos (id) {
+    var idCajon = id;
+    console.log(idCajon);
+    $("#componente_grupo_dos_" + idCajon).remove();
+    var hijos3 = $("#cajaComponentes_dos").find(".componente_grupo_dos_");
+        cont = 1;
+        hijos3.each(function () {
+            $(this).attr("id", "componente_grupo_dos_" + cont);
+            $(this)
+                .find("label")
+                .attr("for", "componente_dos" + cont);
+            $(this)
+                .find("label")
+                .html("componente " + cont);
+            $(this)
+                .find("input")
+                .attr("id", "componente_dos_" + cont);
+
+            var html_ ='';
+            html_+='<button type="button" class="btn btn-danger btn-flat quitar_componente_dos_dos" title="Eliminar este registro"data_id="'+cont+'" onclick="quitar_componente_dos('+cont+')"><i class="fa fa-fw fa-trash"></i></button>';
+            $(this).find("span").html(html_);
+            cont++;
+        });
   }

@@ -1,4 +1,4 @@
 <div class="container">
-    algo
+    algo numero
     {{session('rol_id')}}
 </div>
