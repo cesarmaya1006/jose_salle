@@ -13,6 +13,7 @@ use App\Http\Controllers\Intranet\Admin\PermisoRolController;
 use App\Http\Controllers\Intranet\Admin\IntranetPageCotroller;
 use App\Http\Controllers\Intranet\Carnet\CarnetController as CarnetCarnetController;
 use App\Http\Controllers\Intranet\Empresas\CargoController;
+use App\Http\Controllers\Intranet\Universidad\JuradoController;
 use App\Http\Controllers\Intranet\Universidad\PropuestaController;
 use App\Http\Controllers\Universidad\CarreraController;
 use App\Http\Controllers\Universidad\DependenciaController;
@@ -123,7 +124,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('usuario/{id}/editar', [UsuarioController::class,'editar',])->name('admin-usuario-editar');
             Route::put('usuario/{id}', [UsuarioController::class,'actualizar',])->name('admin-usuario-actualizar');
             Route::delete('usuario/{id}', [UsuarioController::class,'eliminar',])->name('admin-usuario-eliminar');
-
         });
         // ------------------------------------------------------------------------------------
     });
@@ -133,6 +133,13 @@ Route::group(['middleware' => 'auth'], function () {
         // ------------------------------------------------------------------------------------
         Route::post('fechas', [ParametrosController::class,'fechas',])->name('parametros-fechas');
         // ------------------------------------------------------------------------------------
+        // Ruta Administrador del Sistema Jurados
+        Route::get('jurados', [JuradoController::class,'index',])->name('jurados-index');
+        Route::get('jurados-asignacion', [JuradoController::class,'asignacion',])->name('jurados-asignacion');
+        Route::post('jurados', [JuradoController::class, 'guardar'])->name('jurados-guardar');
+        Route::get('jurados/{id}/editar', [JuradoController::class,'editar',])->name('jurados-editar');
+        Route::put('jurados/{id}', [JuradoController::class,'actualizar',])->name('jurados-actualizar');
+        Route::delete('jurados/{id}', [JuradoController::class,'eliminar',])->name('jurados-eliminar');
     });
     Route::get('propuestas', [PropuestaController::class,'index',])->name('propuestas');
     Route::get('propuestas-index', [PropuestaController::class,'propuestas',])->name('propuestas-index');

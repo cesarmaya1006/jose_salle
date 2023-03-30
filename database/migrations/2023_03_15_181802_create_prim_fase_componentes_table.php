@@ -19,6 +19,7 @@ class CreatePrimFaseComponentesTable extends Migration
             $table->foreign('propuestas_id', 'fk_componente_uno_propuestas')->references('id')->on('propuestas')->onDelete('restrict')->onUpdate('restrict');
             $table->string('componente',255);
             $table->string('archivo',255)->nullable();
+            $table->text('descripcion')->nullable();
             $table->float('not_promedio', 2, 2)->nullable();
             $table->integer('estado')->default(0);
             $table->timestamps();

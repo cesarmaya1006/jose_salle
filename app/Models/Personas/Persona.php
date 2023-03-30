@@ -2,9 +2,6 @@
 
 namespace App\Models\Personas;
 
-use App\Models\Admin\Cargo;
-use App\Models\Admin\Carrera;
-use App\Models\Admin\Prestamo;
 use App\Models\Admin\Tipo_Docu;
 use App\Models\Admin\Usuario;
 use App\Models\Universidad\PrimFaseNota;
@@ -47,9 +44,9 @@ class Persona extends Model
         return $this->hasMany(SegFaseNota::class, 'personas_id', 'id');
     }
     //----------------------------------------------------------------------------------
-    public function propuestas()
+    public function propuestas_j()
     {
-        return $this->belongsToMany(Propuesta::class, 'propuesta_jurados');
+        return $this->belongsToMany(Propuesta::class, 'propuesta_jurados','persona_id','propuesta_id');
     }
     //----------------------------------------------------------------------------------
 }
