@@ -20,11 +20,9 @@
                     <img src="{{ asset('imagenes/usuarios/' . session('foto')) }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    @if (session('rol_id') < 3)
                     <h6 class="d-block"><strong>{{session('rol_nombre')}}</strong></h6>
-                    @else
-                    <h6 class="d-block"><strong>{{session('area')}}</strong></h6>
-                    <p class="d-block">{{session('cargo')}}</p>
+                    @if (session('rol_id') > 2)
+                    <h6 class="d-block"><strong>{{session('nombre_completo')}}</strong></h6>
                     @endif
 
                 </div>

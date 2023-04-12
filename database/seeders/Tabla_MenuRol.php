@@ -32,6 +32,8 @@ class Tabla_MenuRol extends Seeder
             ['rol_id' => '1', 'menu_id' => '15'],
             ['rol_id' => '1', 'menu_id' => '16'],
             ['rol_id' => '1', 'menu_id' => '17'],
+            ['rol_id' => '1', 'menu_id' => '18'],
+            ['rol_id' => '1', 'menu_id' => '19'],
             ['rol_id' => '2', 'menu_id' => '1'],
             ['rol_id' => '2', 'menu_id' => '2'],
             ['rol_id' => '2', 'menu_id' => '8'],
@@ -44,6 +46,10 @@ class Tabla_MenuRol extends Seeder
             ['rol_id' => '2', 'menu_id' => '15'],
             ['rol_id' => '2', 'menu_id' => '16'],
             ['rol_id' => '2', 'menu_id' => '17'],
+            ['rol_id' => '2', 'menu_id' => '18'],
+            ['rol_id' => '2', 'menu_id' => '19'],
+            ['rol_id' => '3', 'menu_id' => '1'],
+            ['rol_id' => '4', 'menu_id' => '1'],
 
         ];
 

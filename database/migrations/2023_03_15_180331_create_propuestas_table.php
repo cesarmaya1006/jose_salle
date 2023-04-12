@@ -15,15 +15,18 @@ class CreatePropuestasTable extends Migration
     {
         Schema::create('propuestas', function (Blueprint $table) {
             $table->bigIncrements('id')->autoIncrement();
-            $table->unsignedBigInteger('categorias_id');
-            $table->foreign('categorias_id', 'fk_propuesta_categorias')->references('id')->on('categorias')->onDelete('restrict')->onUpdate('restrict');
+            //$table->unsignedBigInteger('categorias_id');
+            //$table->foreign('categorias_id', 'fk_propuesta_categorias')->references('id')->on('categorias')->onDelete('restrict')->onUpdate('restrict');
             $table->unsignedBigInteger('personas_id')->unique();
             $table->foreign('personas_id','fk_propuesta_personas')->references('id')->on('personas')->onDelete('cascade')->onUpdate('cascade');
             $table->string('titulo',255);
+            $table->string('codigo',255)->unique();
             $table->longText('descripcion')->nullable();
             $table->float('promedio_primera', 2, 2)->nullable();
             $table->float('promedio_segunda', 2, 2)->nullable();
-            $table->integer('estado')->nullable();
+            $table->string('canvas',255)->nullable();
+            $table->string('video',255)->nullable();
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_spanish_ci';

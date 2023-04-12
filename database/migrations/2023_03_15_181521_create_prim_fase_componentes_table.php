@@ -17,11 +17,11 @@ class CreatePrimFaseComponentesTable extends Migration
             $table->bigIncrements('id')->autoIncrement();
             $table->unsignedBigInteger('propuestas_id');
             $table->foreign('propuestas_id', 'fk_componente_uno_propuestas')->references('id')->on('propuestas')->onDelete('restrict')->onUpdate('restrict');
-            $table->string('componente',255);
-            $table->string('archivo',255)->nullable();
-            $table->text('descripcion')->nullable();
+            $table->unsignedBigInteger('sub_componente_id');
+            $table->foreign('sub_componente_id', 'fk_componente_uno_sub_componentes')->references('id')->on('sub_componentes')->onDelete('restrict')->onUpdate('restrict');
+            $table->text('sustentacion')->nullable();
             $table->float('not_promedio', 2, 2)->nullable();
-            $table->integer('estado')->default(0);
+            $table->integer('estado')->default(1);
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_spanish_ci';

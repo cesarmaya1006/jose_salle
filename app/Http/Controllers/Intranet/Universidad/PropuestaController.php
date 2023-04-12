@@ -7,9 +7,11 @@ use App\Http\Requests\ValidacionPropuesta;
 use App\Models\Empresa\PropuestaJurado;
 use App\Models\Personas\Persona;
 use App\Models\Universidad\Categoria;
+use App\Models\Universidad\Componente;
 use App\Models\Universidad\PrimFaseComponente;
 use App\Models\Universidad\Propuesta;
 use App\Models\Universidad\SegFaseComponente;
+use App\Models\Universidad\SubComponente;
 use Illuminate\Http\Request;
 
 class PropuestaController extends Controller
@@ -59,7 +61,7 @@ class PropuestaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function propuestas_crear()
+    public function propuestas_crear_2()
     {
         $jurados = Persona::with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
             $q->where('rol_id', 3);
@@ -69,6 +71,11 @@ class PropuestaController extends Controller
         })->get();
         $categorias=Categoria::get();
         return view('intranet.propuestas.admin.propuestas.crear',compact('jurados','emprendedores','categorias'));
+    }
+    public function propuestas_crear()
+    {
+        $componentes = Componente::get();
+        return view('intranet.propuestas.emprendedor.registrar.index',compact('componentes'));
     }
 
     /**
@@ -97,26 +104,28 @@ class PropuestaController extends Controller
      */
     public function propuestas_guardar(ValidacionPropuesta $request)
     {
-        $propuesta_new['categorias_id'] = $request['categorias_id'];
+        dd($request->all());
+        //======================================================
+        //Propuesta
         $propuesta_new['personas_id'] = $request['personas_id'];
         $propuesta_new['titulo'] = $request['titulo'];
+        $propuesta_new['codigo'] = $request['codigo'];
         $propuesta_new['descripcion'] = $request['descripcion'];
-        $propuesta_new['estado'] = 1;
-        $propuesta = Propuesta::create($propuesta_new);
-        $propuesta->jurados()->sync($request->jurados);
-        foreach ($request['componentes'] as $componente) {
-            $componente_new ['propuestas_id'] = $propuesta->id;
-            $componente_new ['componente'] = $componente;
-            PrimFaseComponente::create($componente_new);
+        // - - - - - - - - - - - - - - - - - - - - - - - -
+        if ($request->hasFile('canvas')) {
+            $ruta = Config::get('constantes.folder_img_usuarios');
+            $ruta = trim($ruta);
+
+            $foto = $request->foto;
+            $imagen_foto = Image::make($foto);
+            $nombrefoto = time() . $foto->getClientOriginalName();
+            $imagen_foto->resize(400, 500);
+            $imagen_foto->save($ruta . $nombrefoto, 100);
+            $nuevaPersona['foto'] = $nombrefoto;
         }
-        foreach ($request['componentes_dos'] as $componente) {
-            $componente_new ['propuestas_id'] = $propuesta->id;
-            $componente_new ['componente'] = $componente;
-            SegFaseComponente::create($componente_new);
-        }
-        $propuestas = Propuesta::get();
-        $mensaje = 'Propuesta creada con exito';
-        return redirect('propuestas-index')->with('mensaje', 'Propuesta creada con exito');
+        // - - - - - - - - - - - - - - - - - - - - - - - -
+        //=========================================================
+        return redirect('admin/index')->with('mensaje', 'Propuesta creada con exito');
     }
 
     /**

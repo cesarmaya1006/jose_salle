@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDocumentosTable extends Migration
+class CreateSubComponentesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateDocumentosTable extends Migration
      */
     public function up()
     {
-        Schema::create('documentos', function (Blueprint $table) {
+        Schema::create('sub_componentes', function (Blueprint $table) {
             $table->bigIncrements('id')->autoIncrement();
-            $table->unsignedBigInteger('prim_fase_componente_id');
-            $table->foreign('prim_fase_componente_id', 'fk_documento_prim_fase_componentes')->references('id')->on('prim_fase_componentes')->onDelete('restrict')->onUpdate('restrict');
-            $table->string('titulo',255);
-            $table->string('archivo',255);
+            $table->unsignedBigInteger('componente_id');
+            $table->foreign('componente_id', 'fk_componentes_sub_componente')->references('id')->on('componentes')->onDelete('restrict')->onUpdate('restrict');
+            $table->string('sub_componente', 255);
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_spanish_ci';
@@ -32,6 +31,6 @@ class CreateDocumentosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documentos');
+        Schema::dropIfExists('sub_componentes');
     }
 }

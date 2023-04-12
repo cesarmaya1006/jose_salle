@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComponenteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Intranet\Admin\RolController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Intranet\Carnet\CarnetController as CarnetCarnetControl
 use App\Http\Controllers\Intranet\Empresas\CargoController;
 use App\Http\Controllers\Intranet\Universidad\JuradoController;
 use App\Http\Controllers\Intranet\Universidad\PropuestaController;
+use App\Http\Controllers\SubComponenteController;
 use App\Http\Controllers\Universidad\CarreraController;
 use App\Http\Controllers\Universidad\DependenciaController;
 use App\Http\Controllers\Universidad\FacultadController;
@@ -133,6 +135,22 @@ Route::group(['middleware' => 'auth'], function () {
         // ------------------------------------------------------------------------------------
         Route::post('fechas', [ParametrosController::class,'fechas',])->name('parametros-fechas');
         // ------------------------------------------------------------------------------------
+        // Ruta Administrador del Sistema categorias componentes
+        Route::get('componentes', [ComponenteController::class,'index',])->name('componente-index');
+        Route::get('componentes-crear', [ComponenteController::class,'crear',])->name('componentes-crear');
+        Route::post('componentes', [ComponenteController::class, 'guardar'])->name('componentes-guardar');
+        Route::get('componentes/{id}/editar', [ComponenteController::class,'editar',])->name('componentes-editar');
+        Route::put('componentes/{id}', [ComponenteController::class,'actualizar',])->name('componentes-actualizar');
+        Route::delete('componentes/{id}', [ComponenteController::class,'eliminar',])->name('componentes-eliminar');
+        // ------------------------------------------------------------------------------------
+        // Ruta Administrador del Sistema componentes
+        Route::get('subcomponentes', [SubComponenteController::class,'index',])->name('subcomponentes-index');
+        Route::get('subcomponentes-crear', [SubComponenteController::class,'crear',])->name('subcomponentes-crear');
+        Route::post('subcomponentes', [SubComponenteController::class, 'guardar'])->name('subcomponentes-guardar');
+        Route::get('subcomponentes/{id}/editar', [SubComponenteController::class,'editar',])->name('subcomponentes-editar');
+        Route::put('subcomponentes/{id}', [SubComponenteController::class,'actualizar',])->name('subcomponentes-actualizar');
+        Route::delete('subcomponentes/{id}', [SubComponenteController::class,'eliminar',])->name('subcomponentes-eliminar');
+        // ------------------------------------------------------------------------------------
         // Ruta Administrador del Sistema Jurados
         Route::get('jurados', [JuradoController::class,'index',])->name('jurados-index');
         Route::get('jurados-asignacion', [JuradoController::class,'asignacion',])->name('jurados-asignacion');
@@ -143,14 +161,20 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::get('propuestas', [PropuestaController::class,'index',])->name('propuestas');
     Route::get('propuestas-index', [PropuestaController::class,'propuestas',])->name('propuestas-index');
-    Route::get('propuestas-crear', [PropuestaController::class,'propuestas_crear',])->name('propuestas-crear');
-    Route::post('propuestas-guardar', [PropuestaController::class, 'propuestas_guardar'])->name('propuestas-guardar');
-    Route::get('propuestas-editar/{id}', [PropuestaController::class,'propuestas_editar',])->name('propuestas-editar');
-    Route::put('propuestas-actualizar/{id}', [PropuestaController::class,'propuestas_actualizar',])->name('propuestas-actualizar');
+
     Route::post('propuestas-guardar_categorias', [PropuestaController::class, 'propuestas_guardar_categorias'])->name('propuestas-guardar_categorias');
     Route::get('componente/{id}', [PropuestaController::class,'componente_eliminar',])->name('componente-eliminar');
     Route::get('componente_dos/{id}', [PropuestaController::class,'componente_dos_eliminar',])->name('componente_dos-eliminar');
     Route::get('propuestas-ver/{id}', [PropuestaController::class,'propuestas_ver',])->name('propuestas-ver');
+
+    //====================================================================================================================================================================
+    //emprendedores
+    Route::get('propuestas-crear', [PropuestaController::class,'propuestas_crear',])->name('propuestas-crear');
+    Route::post('propuestas-guardar', [PropuestaController::class, 'propuestas_guardar'])->name('propuestas-guardar');
+    Route::get('propuestas-editar/{id}', [PropuestaController::class,'propuestas_editar',])->name('propuestas-editar');
+    Route::put('propuestas-actualizar/{id}', [PropuestaController::class,'propuestas_actualizar',])->name('propuestas-actualizar');
+
+    //====================================================================================================================================================================
 
 
 

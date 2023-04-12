@@ -162,3 +162,7 @@ label.requerido:after {
 .card{
     border-top: 8px solid #fbb800;
 }
+
+textarea {
+    resize: none;
+  }

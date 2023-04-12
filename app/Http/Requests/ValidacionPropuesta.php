@@ -24,9 +24,7 @@ class ValidacionPropuesta extends FormRequest
     public function rules()
     {
         return [
-            'personas_id' =>'required|unique:propuestas,personas_id,' . $this->route('id'),
-            'jurados' => 'required',
-            'componentes' => 'required',
+            'codigo' =>'required|unique:propuestas,codigo,' . $this->route('id')
         ];
     }
     /*public function messages()
@@ -40,7 +38,7 @@ class ValidacionPropuesta extends FormRequest
     public function attributes()
     {
         return [
-            'personas_id' => 'Emprendedor'
+            'codigo' => 'El Codigo'
         ];
     }
 }

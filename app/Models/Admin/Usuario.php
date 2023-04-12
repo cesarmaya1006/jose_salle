@@ -78,21 +78,11 @@ class Usuario extends Authenticatable
                 'rol_id' => $roles[0]['id'],
                 'rol_nombre' => $roles[0]['nombre'],
             ]);
-            if ($roles[0]['id'] > 2) {
-                if ($roles[0]['id'] == 3) {
-                    Session::put([
-                        'area' => $this->persona->cargo->area->area,
-                        'cargo' => $this->persona->cargo->cargo
-                    ]);
-                } else {
-                    Session::put([
-                        'area' => $this->persona->carrera->facultad->facultad,
-                        'cargo' => $this->persona->carrera->carrera
-                    ]);
-                }
-            }
         } else {
             Session::put('roles', $roles);
+        }
+        if (session('rol_id')>2) {
+            Session::put(['nombre_completo' => $this->persona->nombre1.' '.$this->persona->apellido1  ,]);
         }
     }
     //==========================================================================================
