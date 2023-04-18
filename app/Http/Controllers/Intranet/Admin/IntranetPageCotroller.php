@@ -11,6 +11,7 @@ use App\Models\PQR\AsignacionTarea;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidarPassword;
 use App\Models\Personas\Persona;
+use App\Models\Universidad\Componente;
 use App\Models\Universidad\Propuesta;
 
 class IntranetPageCotroller extends Controller
@@ -30,8 +31,9 @@ class IntranetPageCotroller extends Controller
         $emprendedores = Persona::with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
             $q->where('rol_id', 4);
         })->get();
+        $componentes = Componente::get();
 
-        return view('intranet.index.index', compact('usuario','propuestas','jurados','emprendedores'));
+        return view('intranet.index.index', compact('usuario','propuestas','jurados','emprendedores','componentes'));
     }
 
     public function restablecer_password(ValidarPassword $request)

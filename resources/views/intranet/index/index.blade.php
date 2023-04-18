@@ -17,17 +17,15 @@ CONVOCATORIA Nª 01 DE 2022 DEL FONDO DE EMPRENDIMIENTO DE FUNZA – FEMF
     <div class="card">
         @include('includes.error-form')
         @include('includes.mensaje')
-        <div class="card-header">
-            @if (session('rol_id') < 3)
-                @include('intranet.index.indexadmin')
-            @endif
-            @if (session('rol_id') == 3)
-                @include('intranet.index.indexjurado')
-            @endif
-            @if (session('rol_id') == 4)
-                @include('intranet.index.indexemprendedor')
-            @endif
-        </div>
+        @if (session('rol_id') < 3)
+        @include('intranet.index.indexadmin')
+        @endif
+        @if (session('rol_id') == 3)
+            @include('intranet.index.indexjurado')
+        @endif
+        @if (session('rol_id') == 4)
+            @include('intranet.index.indexemprendedor')
+        @endif
     </div>
 @endsection
 <!-- ************************************************************* -->

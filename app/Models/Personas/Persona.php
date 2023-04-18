@@ -30,7 +30,7 @@ class Persona extends Model
     //relationships One to One
     public function propuesta()
     {
-        return $this->belongsTo(Propuesta::class, 'id');
+        return $this->belongsTo(Propuesta::class, 'id','personas_id');
     }
     //----------------------------------------------------------------------------------
     public function notas_uno()

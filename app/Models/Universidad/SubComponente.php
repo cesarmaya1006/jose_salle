@@ -17,4 +17,10 @@ class SubComponente extends Model
         return $this->belongsTo(Componente::class, 'componente_id', 'id');
     }
     //----------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------
+    public function primfasecomponentes()
+    {
+        return $this->hasMany(PrimFaseComponente::class, 'sub_componente_id', 'id');
+    }
+    //----------------------------------------------------------------------------------
 }

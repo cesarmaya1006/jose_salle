@@ -12,9 +12,9 @@ class Documento extends Model
     protected $table = 'documentos';
     protected $guarded = [];
     //----------------------------------------------------------------------------------
-    public function propuesta()
+    public function componenteFaseUno()
     {
-        return $this->hasOne(Propuesta::class, 'id');
+        return $this->belongsTo(PrimFaseComponente::class, 'prim_fase_componente_id', 'id');
     }
     //----------------------------------------------------------------------------------
 }

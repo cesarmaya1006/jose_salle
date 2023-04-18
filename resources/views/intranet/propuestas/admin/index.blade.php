@@ -9,7 +9,7 @@
                 <i class="ion ion-bag"></i>
             </div>
             @if ($jurados->count()&&$emprendedores->count())
-            <a href="{{route('propuestas-index')}}" class="small-box-footer">Administrar <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{route('propuestas-index')}}" class="small-box-footer">Ver <i class="fas fa-arrow-circle-right"></i></a>
             @endif
         </div>
     </div>

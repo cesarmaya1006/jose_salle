@@ -62,7 +62,6 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="sustentacion" class="requerido">Sustentación del componente</label>
-                                        <input type="hidden" name="sub_componente_id_{{$sub_componente->id}}" value="{{$sub_componente->id}}">
                                         <textarea class="form-control form-control-sm" name="sustentacion[]" id="sustentacion_{{$sub_componente->id}}" cols="30" rows="5" required></textarea>
                                     </div>
                                 </div>
@@ -103,7 +102,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                
+                            </div>
                         </div>
                         <div class="card-footer">
 

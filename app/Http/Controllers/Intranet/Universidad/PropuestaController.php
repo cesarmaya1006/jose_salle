@@ -8,11 +8,15 @@ use App\Models\Empresa\PropuestaJurado;
 use App\Models\Personas\Persona;
 use App\Models\Universidad\Categoria;
 use App\Models\Universidad\Componente;
+use App\Models\Universidad\Documento;
+use App\Models\Universidad\Foto;
 use App\Models\Universidad\PrimFaseComponente;
 use App\Models\Universidad\Propuesta;
 use App\Models\Universidad\SegFaseComponente;
 use App\Models\Universidad\SubComponente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Intervention\Image\Facades\Image as InterventionImage;
 
 class PropuestaController extends Controller
 {
@@ -104,26 +108,87 @@ class PropuestaController extends Controller
      */
     public function propuestas_guardar(ValidacionPropuesta $request)
     {
-        dd($request->all());
         //======================================================
         //Propuesta
         $propuesta_new['personas_id'] = $request['personas_id'];
         $propuesta_new['titulo'] = $request['titulo'];
         $propuesta_new['codigo'] = $request['codigo'];
         $propuesta_new['descripcion'] = $request['descripcion'];
+        $propuesta_new['estado'] = 1;
         // - - - - - - - - - - - - - - - - - - - - - - - -
         if ($request->hasFile('canvas')) {
-            $ruta = Config::get('constantes.folder_img_usuarios');
+            $ruta = Config::get('constantes.folder_doc_proyectos');
             $ruta = trim($ruta);
-
-            $foto = $request->foto;
-            $imagen_foto = Image::make($foto);
-            $nombrefoto = time() . $foto->getClientOriginalName();
-            $imagen_foto->resize(400, 500);
-            $imagen_foto->save($ruta . $nombrefoto, 100);
-            $nuevaPersona['foto'] = $nombrefoto;
+            $canvas = $request->canvas;
+            $nombre_doc = time() . '-' . utf8_encode(utf8_decode($canvas->getClientOriginalName()));
+            $propuesta_new['canvas'] = $nombre_doc;
+            $canvas->move($ruta, $nombre_doc);
         }
         // - - - - - - - - - - - - - - - - - - - - - - - -
+        if ($request->hasFile('video')) {
+            $ruta = Config::get('constantes.folder_doc_proyectos');
+            $ruta = trim($ruta);
+            $video = $request->video;
+            $nombre_doc = time() . '-' . utf8_encode(utf8_decode($video->getClientOriginalName()));
+            $propuesta_new['video'] = $nombre_doc;
+            $video->move($ruta, $nombre_doc);
+        }
+        // - - - - - - - - - - - - - - - - - - - - - - - -
+        $propuesta = Propuesta::create($propuesta_new);
+        //=========================================================
+        //componentes Primera fase
+        $sub_componentes = SubComponente::get();
+        $cont =0;
+        foreach ($sub_componentes as $sub_componente) {
+            $componenteNew['propuestas_id'] = $propuesta->id;
+            $componenteNew['sub_componente_id'] = $sub_componente->id;
+            $componenteNew['sustentacion'] = $request['sustentacion'][$cont];
+            $componenteNew['estado'] = 1;
+            $componentePrimeraFase = PrimFaseComponente::create($componenteNew);
+            $cont++;
+        }
+        //=========================================================
+        //pfds
+        $i=1;
+        $ruta = Config::get('constantes.folder_doc_proyectos');
+        $ruta = trim($ruta);
+        foreach ($propuesta->componentesFaseUno as $componente) {
+            if (isset($request['pdf'][$i])) {
+                for ($k=1; $k < (count($request['pdf'][$i]))+1 ; $k++) {
+                    $pdf = $request['pdf'][$i][$k];
+                    $nombre_doc = utf8_encode(utf8_decode($pdf->getClientOriginalName()));
+                    $nombre_arch = time() . '-' . utf8_encode(utf8_decode($pdf->getClientOriginalName()));
+                    $documento_new['prim_fase_componente_id'] = $componente->id;
+                    $documento_new['titulo'] = $nombre_doc;
+                    $documento_new['archivo'] = $nombre_arch;
+                    $pdf->move($ruta, $nombre_doc);
+                    Documento::create($documento_new);
+                }
+            }
+            $i++;
+        }
+        //=========================================================
+        //imagenes
+        $i=1;
+        $ruta = Config::get('constantes.folder_doc_proyectos');
+        $ruta = trim($ruta);
+        foreach ($propuesta->componentesFaseUno as $componente) {
+            if (isset($request['imagen'][$i])) {
+                for ($k=1; $k < (count($request['imagen'][$i]))+1 ; $k++) {
+                    $imagen_nueva = $request['imagen'][$i][$k];
+                    $imagen_nueva_archivo = InterventionImage::make($imagen_nueva);
+                    $imagen_nueva_bd_titu = utf8_encode(utf8_decode($imagen_nueva->getClientOriginalName()));
+                    $imagen_nueva_bd = time() . '-' . utf8_encode(utf8_decode($imagen_nueva->getClientOriginalName()));
+                    $imagen_nueva_archivo->resize(600, 600);
+                    $imagen_nueva_archivo->save($ruta . $imagen_nueva_bd, 100);
+                    $fotosNew['titulo'] = $imagen_nueva_bd_titu;
+                    $fotosNew['foto'] = $imagen_nueva_bd;
+                    $fotosNew['prim_fase_componente_id'] = $componente->id;
+                    Foto::create($fotosNew);
+                }
+            }
+            $i++;
+        }
         //=========================================================
         return redirect('admin/index')->with('mensaje', 'Propuesta creada con exito');
     }
@@ -206,7 +271,8 @@ class PropuestaController extends Controller
         }
     }
     public function propuestas_ver($id){
+        $componentes = Componente::get();
         $propuesta = Propuesta::findOrFail($id);
-        return view('intranet.propuestas.admin.propuestas.ver',compact('propuesta'));
+        return view('intranet.propuestas.admin.propuestas.ver',compact('propuesta','componentes'));
     }
 }
