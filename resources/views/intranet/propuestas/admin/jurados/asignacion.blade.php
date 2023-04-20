@@ -43,17 +43,21 @@
                     <div class="col-12 col-md-2">
                         <div class="form-check">
                             <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value="{{$jurado->id}}"
-                                name="jurados[]"
-                                id="jurado_{{$jurado->id}}"
-                                @foreach ($propuesta->jurados as $item)
-                                @if ($item->id == $jurado->id)
-                                checked
-                                @endif
-                                @endforeach
-                            >
+                                    class="form-check-input jurado_check"
+                                    type="checkbox"
+                                    data_url="{{route('propuestas-asignar_guardar',['persona_id' => $jurado->id,'propuesta_id' => $propuesta->id])}}"
+                                    name="persona_id"
+                                    value="{{$jurado->id}}"
+                                    id="jurado_{{$jurado->id}}"
+                                    @foreach ($propuesta->jurados as $item)
+                                    @if ($item->id === $jurado->id)
+                                    checked
+                                    @endif
+                                    @if ($item->notas_uno->count()>0)
+                                    disabled
+                                    @endif
+                                    @endforeach
+                                >
                             <label class="form-check-label" for="flexCheckChecked">
                                 {{$jurado->nombre1 . ' ' . $jurado->nombre2 . ' ' . $jurado->apellido1 . ' ' . $jurado->apellido2}}
                             </label>
@@ -72,5 +76,6 @@
 <!-- ************************************************************* -->
 <!-- script hoja -->
 @section('scripts_pagina')
+<script src="{{ asset('js/intranet/propuestas/admin/propuestas/asignacion.js') }}"></script>
 @endsection
 <!-- ************************************************************* -->

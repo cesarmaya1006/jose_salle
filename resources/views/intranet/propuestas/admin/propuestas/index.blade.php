@@ -34,7 +34,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 responsive">
-                        <table class="table table-striped table-hover table-sm display">
+                        <table class="table table-striped table-hover table-sm tabla_data_table">
                             <thead class="thead-inverse">
                                 <tr>
                                     <th></th>
@@ -43,12 +43,14 @@
                                     <th class="text-center">Titulo</th>
                                     <th class="text-center">Descripción</th>
                                     <th class="text-center">Cant Componentes</th>
+                                    <th class="text-center">Jurados Asignados</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Nota Promedio 1era Fase</th>
-                                    <th class="text-center">Nota Promedio 1era Fase</th>
+                                    <th class="text-center">Nota Promedio 2da Fase</th>
                                     @if (session('rol_id') < 3)
                                     <th class="text-center">Pasa SI / NO</th>
                                     @endif
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,12 +66,22 @@
                                         <td class="text-center">{{ $propuesta->titulo }}</td>
                                         <td class="text-center">{{ $propuesta->descripcion??'' }}</td>
                                         <td class="text-center">{{ $propuesta->componentesFaseUno->Count() }}</td>
-                                        <td class="text-center">{{ $propuesta->estado=1?'Sin Calificaciones':$propuesta->estado=2?'Calificada Parcialmente':$propuesta->estado=3?'1era fase calificada' :$propuesta->estado=4?'2da fase sin calificar':'Calificada 2da fase' }}</td>
+                                        <td class="text-center">
+                                            <strong>{{$propuesta->jurados->Count()}}</strong>
+                                        </td>
+                                        <td class="text-center">{{ $propuesta->estado_str }}</td>
                                         <td class="text-center">{{ $propuesta->promedio_primera??'Sin Calificación' }}</td>
                                         <td class="text-center">{{ $propuesta->promedio_segunda??'Sin Calificación' }}</td>
                                         @if (session('rol_id') < 3)
                                         <td class="text-center">{{ $propuesta->promedio_segunda==null?'N/A': ($propuesta->promedio_segunda>3?'Pasa':'No pasa')}}</td>
                                         @endif
+                                        <td>
+                                        @if ($propuesta->jurados->Count()>0)
+                                            <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-info bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3">ModificarJurados</a>
+                                        @else
+                                        <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-danger bg-gradient btn-sombra btn-xs pl-3 pr-3">Asignar Jurados</a>
+                                        @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

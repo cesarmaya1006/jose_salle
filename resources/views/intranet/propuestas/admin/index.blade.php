@@ -22,7 +22,7 @@
             <div class="icon">
                 <i class="fas fa-chalkboard-teacher"></i>
             </div>
-            <a href="#" class="small-box-footer">Administrar <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{route('jurados-index')}}" class="small-box-footer">Administrar <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-6">
@@ -34,7 +34,7 @@
             <div class="icon">
                 <i class="fas fa-graduation-cap"></i>
             </div>
-            <a href="#" class="small-box-footer">Administrar <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{route('emprendedores-index')}}" class="small-box-footer">Administrar <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 </div>

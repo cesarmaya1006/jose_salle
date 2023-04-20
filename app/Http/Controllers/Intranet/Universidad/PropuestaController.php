@@ -28,6 +28,28 @@ class PropuestaController extends Controller
     public function index()
     {
         $propuestas = Propuesta::get();
+        foreach ($propuestas as $propuesta) {
+            switch ($propuesta->estado) {
+                case 1:
+                    $propuesta['estado_str'] = 'Registrada sin calificaciones';
+                    break;
+
+                case 2:
+                    $propuesta['estado_str'] = 'Con calificación 1era fase incompleta';
+                    break;
+
+                case 3:
+                    $propuesta['estado_str'] = 'Con calificación 1era fase completa';
+                    break;
+
+                case 4:
+                    $propuesta['estado_str'] = 'Con calificación 2da fase incompleta';
+                    break;
+                default:
+                    $propuesta['estado_str'] = 'Con calificación 2da fase completa';
+                break;
+            }
+        }
         $jurados = Persona::with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
             $q->where('rol_id', 3);
         })->get();
@@ -56,6 +78,28 @@ class PropuestaController extends Controller
         }
 
         $propuestas = Propuesta::get();
+        foreach ($propuestas as $propuesta) {
+            switch ($propuesta->estado) {
+                case 1:
+                    $propuesta['estado_str'] = 'Registrada sin calificaciones';
+                    break;
+
+                case 2:
+                    $propuesta['estado_str'] = 'Con calificación 1era fase incompleta';
+                    break;
+
+                case 3:
+                    $propuesta['estado_str'] = 'Con calificación 1era fase completa';
+                    break;
+
+                case 4:
+                    $propuesta['estado_str'] = 'Con calificación 2da fase incompleta';
+                    break;
+                default:
+                    $propuesta['estado_str'] = 'Con calificación 2da fase completa';
+                break;
+            }
+        }
         return view('intranet.propuestas.admin.propuestas.index',compact('propuestas'));
     }
 
@@ -273,6 +317,57 @@ class PropuestaController extends Controller
     public function propuestas_ver($id){
         $componentes = Componente::get();
         $propuesta = Propuesta::findOrFail($id);
+        switch ($propuesta->estado) {
+            case 1:
+                $propuesta['estado_str'] = 'Registrada sin calificaciones';
+                break;
+
+            case 2:
+                $propuesta['estado_str'] = 'Con calificación 1era fase incompleta';
+                break;
+
+            case 3:
+                $propuesta['estado_str'] = 'Con calificación 1era fase completa';
+                break;
+
+            case 4:
+                $propuesta['estado_str'] = 'Con calificación 2da fase incompleta';
+                break;
+            default:
+                $propuesta['estado_str'] = 'Con calificación 2da fase completa';
+            break;
+        }
         return view('intranet.propuestas.admin.propuestas.ver',compact('propuesta','componentes'));
+    }
+
+    public function propuestas_asignar($id){
+        $jurados = Persona::with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
+            $q->where('rol_id', 3);
+        })->get();
+        $propuesta = Propuesta::findOrFail($id);
+        return view('intranet.propuestas.admin.propuestas.asignacion_jurados',compact('propuesta','jurados'));
+    }
+
+
+
+    public function propuestas_asignar_guardar(Request $request,$persona_id,$propuesta_id){
+        if ($request->ajax()) {
+            $propuestas = new Propuesta();
+            if ($request->input('valor') == 1) {
+                $propuestas->find($propuesta_id)->jurados()->attach($persona_id);
+                return response()->json(['mensaje' => 'ok']);
+            } else {
+                $propuestas->find($propuesta_id)->jurados()->detach($persona_id);
+                return response()->json(['mensaje' => 'ng']);
+            }
+        } else {
+            abort(404);
+        }
+    }
+    public function emprendedores(){
+        $emprendedores = Persona::with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
+            $q->where('rol_id', 4);
+        })->get();
+        return view('intranet.propuestas.emprendedor.index', compact('emprendedores'));
     }
 }

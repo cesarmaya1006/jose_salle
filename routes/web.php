@@ -158,6 +158,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('jurados/{id}/editar', [JuradoController::class,'editar',])->name('jurados-editar');
         Route::put('jurados/{id}', [JuradoController::class,'actualizar',])->name('jurados-actualizar');
         Route::delete('jurados/{id}', [JuradoController::class,'eliminar',])->name('jurados-eliminar');
+        // ------------------------------------------------------------------------------------
+        // Ruta Administrador del Sistema Jurados
+        Route::get('propuestas-asignar/{id}', [PropuestaController::class,'propuestas_asignar',])->name('propuestas-asignar');
+        Route::post('propuestas-asignar_guardar/{persona_id}/{propuesta_id}', [PropuestaController::class,'propuestas_asignar_guardar',])->name('propuestas-asignar_guardar');
+        // Ruta Administrador del Sistema Emprendedores
+        Route::get('emprendedores', [PropuestaController::class,'emprendedores',])->name('emprendedores-index');
+
+
     });
     Route::get('propuestas', [PropuestaController::class,'index',])->name('propuestas');
     Route::get('propuestas-index', [PropuestaController::class,'propuestas',])->name('propuestas-index');

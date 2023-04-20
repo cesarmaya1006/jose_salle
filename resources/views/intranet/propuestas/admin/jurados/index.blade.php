@@ -43,7 +43,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 responsive">
-                        <table class="table table-striped table-hover table-bordered table-sm display">
+                        <table class="table table-striped table-hover table-bordered table-sm tabla_data_table">
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="text-center" scope="col">Id</th>

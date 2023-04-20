@@ -42,7 +42,7 @@ class Tabla_Menu extends Seeder
             ['nombre' =>  'Componentes', 'menu_id' => '14', 'url' =>  'subcomponentes', 'orden' => '2', 'icono' =>  'fas fa-sort-alpha-down'],
             //----------------------------------------------------------------------------------------------------------------------
             //17
-            ['nombre' =>  'Propuestas', 'menu_id' => '0', 'url' =>  '#', 'orden' => '4', 'icono' =>  'fas fa-folder-open'],
+            ['nombre' =>  'Propuestas', 'menu_id' => '0', 'url' =>  'propuestas-index', 'orden' => '4', 'icono' =>  'fas fa-folder-open'],
             //----------------------------------------------------------------------------------------------------------------------
             //18
             ['nombre' =>  'Jurados', 'menu_id' => '0', 'url' =>  'jurados', 'orden' => '5', 'icono' =>  'fas fa-graduation-cap'],

@@ -25,15 +25,16 @@ class IntranetPageCotroller extends Controller
     {
         $usuario = Usuario::findOrFail(session('id_usuario'));
         $propuestas = Propuesta::get();
-        $jurados = Persona::with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
+        $jurados = Persona::with('propuestas_j')->with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
             $q->where('rol_id', 3);
         })->get();
         $emprendedores = Persona::with('usuario')->with('usuario.roles')->whereHas('usuario.roles', function ($q) {
             $q->where('rol_id', 4);
         })->get();
         $componentes = Componente::get();
-
-        return view('intranet.index.index', compact('usuario','propuestas','jurados','emprendedores','componentes'));
+        $jurado = Persona::findOrFail(session('id_usuario'));
+        
+        return view('intranet.index.index', compact('usuario','propuestas','jurados','emprendedores','componentes','jurado'));
     }
 
     public function restablecer_password(ValidarPassword $request)

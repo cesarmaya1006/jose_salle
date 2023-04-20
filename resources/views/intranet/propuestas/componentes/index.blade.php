@@ -41,7 +41,7 @@
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center">
                     <div class="col-12 col-md-9 responsive">
-                        <table class="table table-striped table-hover table-sm display tabla-borrando">
+                        <table class="table table-striped table-hover table-sm tabla_data_table tabla-borrando">
                             <thead class="thead-inverse">
                                 <tr>
                                     <th class="text-center">#</th>
