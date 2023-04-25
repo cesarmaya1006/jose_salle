@@ -62,7 +62,7 @@
                                         <td class="text-left text-nowrap">{{$emprendedor->nombre1 . ' ' . $emprendedor->nombre2 . ' ' . $emprendedor->apellido1 . ' ' . $emprendedor->apellido2}}</td>
                                         <td class="text-center text-nowrap">{{$emprendedor->telefono}}</td>
                                         <td class="text-left text-nowrap">{{$emprendedor->email}}</td>
-                                        <td class="text-center text-nowrap">{{$emprendedor->propuesta->count()>0?'SI':'NO'}}</td>
+                                        <td class="text-center text-nowrap">{{$emprendedor->propuesta?'SI':'NO'}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

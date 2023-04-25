@@ -20,7 +20,9 @@ class CreatePrimFaseComponentesTable extends Migration
             $table->unsignedBigInteger('sub_componente_id');
             $table->foreign('sub_componente_id', 'fk_componente_uno_sub_componentes')->references('id')->on('sub_componentes')->onDelete('restrict')->onUpdate('restrict');
             $table->text('sustentacion')->nullable();
-            $table->float('not_promedio', 2, 2)->nullable();
+            $table->float('not_promedio')->nullable();
+            $table->float('canvas')->nullable();
+            $table->float('video')->nullable();
             $table->integer('estado')->default(1);
             $table->timestamps();
             $table->charset = 'utf8';

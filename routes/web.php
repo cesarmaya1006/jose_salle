@@ -181,7 +181,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('propuestas-guardar', [PropuestaController::class, 'propuestas_guardar'])->name('propuestas-guardar');
     Route::get('propuestas-editar/{id}', [PropuestaController::class,'propuestas_editar',])->name('propuestas-editar');
     Route::put('propuestas-actualizar/{id}', [PropuestaController::class,'propuestas_actualizar',])->name('propuestas-actualizar');
-
+    //====================================================================================================================================================================
+    //jurados
+    Route::get('calificar-primera-fase/{id}', [JuradoController::class,'calificar_primera_fase',])->name('calificar_primera_fase');
+    Route::post('calificar-primera-fase/{id}/guardar', [JuradoController::class, 'calificar_primera_fase_guardar'])->name('calificar_primera_fase-guardar');
     //====================================================================================================================================================================
 
 

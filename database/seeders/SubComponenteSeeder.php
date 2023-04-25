@@ -16,6 +16,8 @@ class SubComponenteSeeder extends Seeder
     public function run()
     {
         $sub_componentes = [
+            ['componente_id' => '1', 'sub_componente' => 'Canvas'],
+            ['componente_id' => '1', 'sub_componente' => 'Video'],
             ['componente_id' => '1', 'sub_componente' => 'Estrategia general de la Propuesta de Negocio'],
             ['componente_id' => '1', 'sub_componente' => 'Misión, visión y valores Corporativos'],
             ['componente_id' => '1', 'sub_componente' => 'Estructura Administrativa'],
@@ -37,14 +39,15 @@ class SubComponenteSeeder extends Seeder
             ['componente_id' => '4', 'sub_componente' => 'Especificaciones de los productos/servicios'],
             ['componente_id' => '4', 'sub_componente' => 'Flujo del proceso del producto/servicio'],
             ['componente_id' => '4', 'sub_componente' => 'Capacidad operativa'],
-            ['componente_id' => '4', 'sub_componente' => 'Cadena de suministro de alto nivel de la empresa'],
+            ['componente_id' => '4', 'sub_componente' => 'Cadena de valor de alto nivel de la empresa'],
             ['componente_id' => '4', 'sub_componente' => 'Matriz de proveedores'],
             ['componente_id' => '5', 'sub_componente' => 'Factores relacionados con oferta y demanda del bien o servicio'],
             ['componente_id' => '5', 'sub_componente' => 'Variables macroeconómicas'],
             ['componente_id' => '5', 'sub_componente' => 'Problemas ambientales en el territorio'],
             ['componente_id' => '5', 'sub_componente' => 'Costos y beneficios socioambietales'],
             ['componente_id' => '5', 'sub_componente' => 'Enfoque sostenible del emprendimiento'],
-            
+            ['componente_id' => '6', 'sub_componente' => 'Propuesta de cofinanciamiento'],
+
         ];
         foreach ($sub_componentes as $key => $value) {
             DB::table('sub_componentes')->insert([

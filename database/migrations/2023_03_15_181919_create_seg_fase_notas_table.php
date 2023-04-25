@@ -19,7 +19,7 @@ class CreateSegFaseNotasTable extends Migration
             $table->foreign('seg_fase_componentes_id', 'fk_componente_seg_fase_componentes')->references('id')->on('seg_fase_componentes')->onDelete('restrict')->onUpdate('restrict');
             $table->unsignedBigInteger('personas_id');
             $table->foreign('personas_id', 'fk_jurado_dos_personas')->references('id')->on('personas')->onDelete('restrict')->onUpdate('restrict');
-            $table->float('calificacion', 2, 2)->default(0);
+            $table->float('calificacion')->default(0);
             $table->longText('observacion');
             $table->timestamps();
             $table->charset = 'utf8';

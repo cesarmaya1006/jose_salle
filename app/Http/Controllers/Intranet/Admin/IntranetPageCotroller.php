@@ -32,9 +32,15 @@ class IntranetPageCotroller extends Controller
             $q->where('rol_id', 4);
         })->get();
         $componentes = Componente::get();
-        $jurado = Persona::findOrFail(session('id_usuario'));
-        
-        return view('intranet.index.index', compact('usuario','propuestas','jurados','emprendedores','componentes','jurado'));
+        if (session('rol_id')==3) {
+            $jurado = Persona::findOrFail(session('id_usuario'));
+            return view('intranet.index.index', compact('usuario','propuestas','jurados','emprendedores','componentes','jurado'));
+        }else{
+            return view('intranet.index.index', compact('usuario','propuestas','jurados','emprendedores','componentes'));
+        }
+
+
+
     }
 
     public function restablecer_password(ValidarPassword $request)

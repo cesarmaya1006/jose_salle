@@ -22,10 +22,9 @@ class CreatePropuestasTable extends Migration
             $table->string('titulo',255);
             $table->string('codigo',255)->unique();
             $table->longText('descripcion')->nullable();
-            $table->float('promedio_primera', 2, 2)->nullable();
-            $table->float('promedio_segunda', 2, 2)->nullable();
-            $table->string('canvas',255)->nullable();
-            $table->string('video',255)->nullable();
+            $table->float('promedio_primera')->nullable();
+            $table->float('promedio_segunda')->nullable();
+            $table->string('informe',255)->nullable();
             $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->charset = 'utf8';

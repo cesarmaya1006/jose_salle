@@ -22,16 +22,9 @@
     </div>
     <div class="col-12 col-md-7">
         <div class="form-group">
-            <label for="canvas">Subir Canvas</label>
-            <input type="file" class="form-control form-control-sm" name="canvas" id="canvas" aria-describedby="helpId" accept="application/pdf">
+            <label for="informe">Informe General</label>
+            <input type="file" class="form-control form-control-sm" name="informe" id="informe" aria-describedby="helpId" accept="application/pdf">
             <small id="helpId" class="form-text text-muted">Archivo en PDF unicamente</small>
-        </div>
-    </div>
-    <div class="col-12 col-md-7">
-        <div class="form-group">
-            <label for="video">Subir video</label>
-            <input type="file" class="form-control form-control-sm" name="video" id="video" aria-describedby="helpId" accept="video/mp4,video/mkv, video/x-m4v,video/*">
-            <small id="helpId" class="form-text text-muted">Solo archivos de video</small>
         </div>
     </div>
 </div>
@@ -58,6 +51,7 @@
                             <h6 class="card-title"><strong>{{$sub_componente->sub_componente}}</strong></h6>
                         </div>
                         <div class="card-body">
+                            @if ($sub_componente->sub_componente!='Canvas'&&$sub_componente->sub_componente!='Video')
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -103,6 +97,29 @@
                                     </div>
                                 </div>
                             </div>
+                            @else
+                            @if ($sub_componente->sub_componente==='Canvas')
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="canvas">Subir Canvas</label>
+                                        <input type="file" class="form-control form-control-sm" name="canvas[]" id="canvas_{{$sub_componente->id}}" aria-describedby="helpId" accept="application/pdf">
+                                        <small id="helpId" class="form-text text-muted">Archivo en PDF unicamente</small>
+                                    </div>
+                                </div>
+                            </div>
+                            @else
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="video">Subir video</label>
+                                        <input type="file" class="form-control form-control-sm" name="video[]" id="video_{{$sub_componente->id}}" aria-describedby="helpId" accept="video/mp4,video/mkv, video/x-m4v,video/*">
+                                        <small id="helpId" class="form-text text-muted">Solo archivos de video</small>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            @endif
                         </div>
                         <div class="card-footer">
 

@@ -21,6 +21,7 @@ class ComponenteSeeder extends Seeder
             'Financiero',
             'Producción, logística y operaciones',
             'Sostenibilidad',
+            'Propuesta de Coofinanciamiento',
         ];
 
         foreach ($componentes as $key => $value) {

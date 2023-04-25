@@ -30,11 +30,6 @@
                                 <th class="text-center">Titulo</th>
                                 <th class="text-center">Descripción</th>
                                 <th class="text-center">Cant Componentes</th>
-                                <th class="text-center">Jurados Asignados</th>
-                                <th class="text-center">Estado</th>
-                                @if (session('rol_id') < 3)
-                                <th class="text-center">Pasa SI / NO</th>
-                                @endif
                                 <th></th>
                             </tr>
                         </thead>
@@ -65,11 +60,11 @@
                                         <span class="badge bg-danger w-100">Propuesta sin calificar</span>
                                         @else
                                         <div class="progress w-100">
-                                            <div class="progress-bar {{$porcentajeCalificado<=25? 'bg-danger':($porcentajeCalificado<=50?'bg-warning':($porcentajeCalificado<=75?'bg-info':($porcentajeCalificado<=99?'bg-primary':'bg-success')))}}" 
-                                                 role="progressbar" 
-                                                 style="width: {{$porcentajeCalificado}}%;" 
-                                                 aria-valuenow="{{$porcentajeCalificado}}" 
-                                                 aria-valuemin="0" 
+                                            <div class="progress-bar {{$porcentajeCalificado<=25? 'bg-danger':($porcentajeCalificado<=50?'bg-warning':($porcentajeCalificado<=75?'bg-info':($porcentajeCalificado<=99?'bg-primary':'bg-success')))}}"
+                                                 role="progressbar"
+                                                 style="width: {{$porcentajeCalificado}}%;"
+                                                 aria-valuenow="{{$porcentajeCalificado}}"
+                                                 aria-valuemin="0"
                                                  aria-valuemax="100">
                                                  {{$porcentajeCalificado}}%
                                             </div>
@@ -83,14 +78,9 @@
                                     <td class="text-center">{{ $propuesta->titulo }}</td>
                                     <td class="text-center">{{ $propuesta->descripcion??'' }}</td>
                                     <td class="text-center">{{ $propuesta->componentesFaseUno->Count() }}</td>
-                                    <td class="text-center"><strong>{{$propuesta->jurados->Count()}}</strong></td>
-                                    <td class="text-center">{{ $propuesta->estado_str }}</td>
-                                    @if (session('rol_id') < 3)
-                                    <td class="text-center">{{ $propuesta->promedio_segunda==null?'N/A': ($propuesta->promedio_segunda>3?'Pasa':'No pasa')}}</td>
-                                    @endif
                                     <td>
-                                    @if ($propuesta->jurados->Count()>0)
-                                        <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-info bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3">ModificarJurados</a>
+                                    @if ($porcentajeCalificado<100)
+                                        <a href="{{route('calificar_primera_fase',['id' => $propuesta->id])}}" class="btn btn-warning bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3"><i class="fas fa-chalkboard-teacher"></i> Calificar  primera fase</a>
                                     @else
                                     <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-danger bg-gradient btn-sombra btn-xs pl-3 pr-3">Asignar Jurados</a>
                                     @endif
