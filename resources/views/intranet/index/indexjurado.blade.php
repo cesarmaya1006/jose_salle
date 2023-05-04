@@ -30,6 +30,7 @@
                                 <th class="text-center">Titulo</th>
                                 <th class="text-center">Descripción</th>
                                 <th class="text-center">Cant Componentes</th>
+                                <th class="text-center">Componentes Calificados</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -37,9 +38,11 @@
                             @foreach ($jurado->propuestas_j as $propuesta)
                                 @php
                                     $cantComponentes = $propuesta->componentesFaseUno->count();
+                                    $cantCalificado = 0;
                                 @endphp
                                 @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
                                     @php
+                                        $cantCalificado+=$componenteFaseUno->notas->where('personas_id',session('id_usuario'))->count();
                                         $componenteCalificado =0;
                                     @endphp
                                     @foreach ($componenteFaseUno->notas as $nota)
@@ -51,7 +54,7 @@
                                     @endforeach
                                 @endforeach
                                 @php
-                                    $porcentajeCalificado = ($componenteCalificado*100)/$cantComponentes;
+                                    $porcentajeCalificado = number_format(($cantCalificado*100)/$cantComponentes,2,',','.');
                                 @endphp
                                 <tr>
                                     <td class="text-center">{{ $propuesta->id }}</td>
@@ -78,11 +81,10 @@
                                     <td class="text-center">{{ $propuesta->titulo }}</td>
                                     <td class="text-center">{{ $propuesta->descripcion??'' }}</td>
                                     <td class="text-center">{{ $propuesta->componentesFaseUno->Count() }}</td>
+                                    <td class="text-center">{{ $cantCalificado }}</td>
                                     <td>
-                                    @if ($porcentajeCalificado<100)
+                                    @if ($propuesta->componentesFaseUno->Count()!=$cantCalificado)
                                         <a href="{{route('calificar_primera_fase',['id' => $propuesta->id])}}" class="btn btn-warning bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3"><i class="fas fa-chalkboard-teacher"></i> Calificar  primera fase</a>
-                                    @else
-                                    <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-danger bg-gradient btn-sombra btn-xs pl-3 pr-3">Asignar Jurados</a>
                                     @endif
                                     </td>
                                 </tr>

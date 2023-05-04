@@ -1,12 +1,8 @@
 <div class="card-header">
     <div class="row">
         <div class="col-sm-6">
-            @if ($usuario->persona->propuesta)
             <h3 class="m-0 mb-2">{{$usuario->persona->propuesta->titulo}}</h3>
             <h6><strong>Codigo:</strong>{{$usuario->persona->propuesta->codigo}}</h6>
-            @else
-            <h3 class="m-0">Sin propuesta Cargada</h3>
-            @endif
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -17,7 +13,7 @@
 </div>
 <div class="card-body pb-3">
     <div class="container-fluid">
-        @if ($usuario->persona->propuesta)
+        @if ($usuario->persona->propuesta->estado > 1)
         <div class="row d-flex justify-content-around">
             <div class="col-12">
                 <h6><strong>Descripción:</strong></h6>
@@ -25,18 +21,8 @@
             </div>
             <div class="col-12 col-md-5">
                 <div class="row">
-                    <div class="col-12"><h6><strong>Documento Canvas</strong></h6></div>
-                    <div class="col-12"><iframe src="{{asset('documentos/proyectos/'.$usuario->persona->propuesta->canvas)}}" style="width:100%;height: 600pX;" frameborder="0" ></iframe></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-5">
-                <div class="row">
-                    <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
-                    <div class="col-12">
-                        <div class="video d-flex justify-content-center w-100" style="">
-                            <video controls src="{{asset('documentos/proyectos/'.$usuario->persona->propuesta->video)}}"></video>
-                        </div>
-                    </div>
+                    <div class="col-12"><h6><strong>Informe final</strong></h6></div>
+                    <div class="col-12"><iframe src="{{asset('documentos/proyectos/'.$usuario->persona->propuesta->informe)}}" style="width:100%;height: 600pX;" frameborder="0" ></iframe></div>
                 </div>
             </div>
         </div>
@@ -57,7 +43,7 @@
                 <div id="flush-collapse{{$componente->id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$componente->id}}" data-bs-parent="#accordionComponentes">
                     <div class="row mt-4">
                         @foreach ($componente->sub_componentes as $sub_componente)
-                        <div class="col-11 col-md-4">
+                        <div class="col-11 {{$sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video'? 'col-md-4' : 'col-md-6'}} ">
                             <div class="card card-outline">
                                 <div class="card-header">
                                     <h6 class="card-title"><strong>{{$sub_componente->sub_componente}}</strong></h6>
@@ -66,6 +52,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="row">
+                                                @if ($sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video')
                                                 <div class="col-12"><strong>Sustentacion del componente</strong></div>
                                                 <div class="col-12">
                                                     @foreach ($usuario->persona->propuesta->componentesFaseUno as $componenteFaseUno)
@@ -76,6 +63,38 @@
                                                     @endif
                                                     @endforeach
                                                 </div>
+                                                @else
+                                                    @if ($sub_componente->sub_componente==='Canvas')
+                                                        @php
+                                                            $contador =0;
+                                                        @endphp
+                                                        @foreach ($usuario->persona->propuesta->componentesFaseUno as $componenteFaseUno)
+                                                            @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
+                                                            <div class="col-12">
+                                                                <div class="row">
+                                                                    <div class="col-12"><h6><strong>Documento Canvas</strong></h6></div>
+                                                                    <div class="col-12"><iframe src="{{asset('documentos/proyectos/'.$componenteFaseUno->canvas)}}" style="width:100%;height: 600pX;" frameborder="0" ></iframe></div>
+                                                                </div>
+                                                            </div>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($usuario->persona->propuesta->componentesFaseUno as $componenteFaseUno)
+                                                            @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
+                                                            <div class="col-12">
+                                                                <div class="row">
+                                                                    <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
+                                                                    <div class="col-12">
+                                                                        <div class="video d-flex justify-content-center w-100" style="">
+                                                                            <video controls src="{{asset('documentos/proyectos/'.$componenteFaseUno->video)}}" style="max-width: 90%"></video>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +160,7 @@
         @else
         <div class="row mb-5">
             <div class="col-12 mb-4">
-                <h5>Aún no has registrado tu propuesta....</h5>
+                <h5>Aún no has terminado el registro de tu propuesta....</h5>
             </div>
             <div class="col-12">
                 <a class="btn btn-success btn-xs btn-sombra  pl-5 pr-5 " href="{{route('propuestas-crear')}}" >Registra tu propuesta</a>

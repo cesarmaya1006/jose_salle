@@ -123,7 +123,8 @@ class PropuestaController extends Controller
     public function propuestas_crear()
     {
         $componentes = Componente::get();
-        return view('intranet.propuestas.emprendedor.registrar.index',compact('componentes'));
+        $usuario = Persona::findOrFail(session('id_usuario'));
+        return view('intranet.propuestas.emprendedor.registrar.index',compact('componentes','usuario'));
     }
 
     /**
@@ -150,23 +151,42 @@ class PropuestaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function propuestas_guardar(ValidacionPropuesta $request)
+    public function propuestas_guardar(Request $request)
     {
+        //dd($request->all());
+        //======================================================
         //======================================================
         //Propuesta
-        $propuesta_new['personas_id'] = $request['personas_id'];
-        $propuesta_new['titulo'] = $request['titulo'];
-        $propuesta_new['codigo'] = $request['codigo'];
         $propuesta_new['descripcion'] = $request['descripcion'];
-        $propuesta_new['estado'] = 1;
+        $propuesta_new['estado'] = 2;
+        // - - - - - - - - - - - - - - - - - - - - - - - -
+        if ($request->hasFile('informe')) {
+            $ruta = Config::get('constantes.folder_doc_proyectos');
+            $ruta = trim($ruta);
+            $informe = $request->informe;
+            $nombre_doc = time() . '-' . utf8_encode(utf8_decode($informe->getClientOriginalName()));
+            $propuesta_new['informe'] = $nombre_doc;
+            $informe->move($ruta, $nombre_doc);
+        }
+        // - - - - - - - - - - - - - - - - - - - - - - - -
+        // - - - - - - - - - - - - - - - - - - - - - - - -
+        Propuesta::findOrFail($request['propuestas_id'])->update($propuesta_new);
+        $propuesta = Propuesta::findOrFail($request['propuestas_id']);
+        // - - - - - - - - - - - - - - - - - - - - - - - -
         // - - - - - - - - - - - - - - - - - - - - - - - -
         if ($request->hasFile('canvas')) {
             $ruta = Config::get('constantes.folder_doc_proyectos');
             $ruta = trim($ruta);
             $canvas = $request->canvas;
             $nombre_doc = time() . '-' . utf8_encode(utf8_decode($canvas->getClientOriginalName()));
-            $propuesta_new['canvas'] = $nombre_doc;
             $canvas->move($ruta, $nombre_doc);
+            $componenteNew['canvas'] = $nombre_doc;
+            $componenteNew['estado'] = 2;
+            $primeraFase_ = PrimFaseComponente::where('propuestas_id',$request['propuestas_id'])->where('sub_componente_id',1)->get();
+            foreach ($primeraFase_ as $item) {
+                $primeraFase = $item;
+            }
+            PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
         }
         // - - - - - - - - - - - - - - - - - - - - - - - -
         if ($request->hasFile('video')) {
@@ -174,22 +194,30 @@ class PropuestaController extends Controller
             $ruta = trim($ruta);
             $video = $request->video;
             $nombre_doc = time() . '-' . utf8_encode(utf8_decode($video->getClientOriginalName()));
-            $propuesta_new['video'] = $nombre_doc;
+            $componenteNew['video'] = $nombre_doc;
             $video->move($ruta, $nombre_doc);
+            $componenteNew['estado'] = 2;
+            $primeraFase_ = PrimFaseComponente::where('propuestas_id',$request['propuestas_id'])->where('sub_componente_id',2)->get();
+            foreach ($primeraFase_ as $item) {
+                $primeraFase = $item;
+            }
+            PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
         }
-        // - - - - - - - - - - - - - - - - - - - - - - - -
-        $propuesta = Propuesta::create($propuesta_new);
         //=========================================================
         //componentes Primera fase
         $sub_componentes = SubComponente::get();
         $cont =0;
         foreach ($sub_componentes as $sub_componente) {
-            $componenteNew['propuestas_id'] = $propuesta->id;
-            $componenteNew['sub_componente_id'] = $sub_componente->id;
-            $componenteNew['sustentacion'] = $request['sustentacion'][$cont];
-            $componenteNew['estado'] = 1;
-            $componentePrimeraFase = PrimFaseComponente::create($componenteNew);
-            $cont++;
+            if ($sub_componente->id >2) {
+                $componenteNew['sustentacion'] = $request['sustentacion'][$cont];
+                $componenteNew['estado'] = 2;
+                $primeraFase_ = PrimFaseComponente::where('propuestas_id',$request['propuestas_id'])->where('sub_componente_id',$sub_componente->id)->get();
+                foreach ($primeraFase_ as $item) {
+                    $primeraFase = $item;
+                }
+                PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
+                $cont++;
+            }
         }
         //=========================================================
         //pfds
@@ -197,7 +225,7 @@ class PropuestaController extends Controller
         $ruta = Config::get('constantes.folder_doc_proyectos');
         $ruta = trim($ruta);
         foreach ($propuesta->componentesFaseUno as $componente) {
-            if (isset($request['pdf'][$i])) {
+            if (isset($request['pdf'][$i])&& $componente->sub_componente_id>2) {
                 for ($k=1; $k < (count($request['pdf'][$i]))+1 ; $k++) {
                     $pdf = $request['pdf'][$i][$k];
                     $nombre_doc = utf8_encode(utf8_decode($pdf->getClientOriginalName()));
@@ -205,7 +233,7 @@ class PropuestaController extends Controller
                     $documento_new['prim_fase_componente_id'] = $componente->id;
                     $documento_new['titulo'] = $nombre_doc;
                     $documento_new['archivo'] = $nombre_arch;
-                    $pdf->move($ruta, $nombre_doc);
+                    $pdf->move($ruta, $nombre_arch);
                     Documento::create($documento_new);
                 }
             }
@@ -217,7 +245,7 @@ class PropuestaController extends Controller
         $ruta = Config::get('constantes.folder_doc_proyectos');
         $ruta = trim($ruta);
         foreach ($propuesta->componentesFaseUno as $componente) {
-            if (isset($request['imagen'][$i])) {
+            if (isset($request['imagen'][$i])&& $componente->sub_componente_id>2) {
                 for ($k=1; $k < (count($request['imagen'][$i]))+1 ; $k++) {
                     $imagen_nueva = $request['imagen'][$i][$k];
                     $imagen_nueva_archivo = InterventionImage::make($imagen_nueva);

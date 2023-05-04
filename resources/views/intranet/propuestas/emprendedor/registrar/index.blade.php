@@ -21,7 +21,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="m-0">Registro de Propuestas</h3>
+                        <h3 class="m-0 mb-2">{{$usuario->propuesta->titulo}}</h3>
+                        <h6><strong>Codigo:</strong>{{$usuario->propuesta->codigo}}</h6>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

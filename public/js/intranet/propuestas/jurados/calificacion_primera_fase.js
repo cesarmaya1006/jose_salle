@@ -101,18 +101,13 @@ $(document).ready(function () {
             type: "POST",
             data: form.serialize(),
             success: function (respuesta) {
-                if (respuesta.mensaje == "ok") {
-                    $('#form_'+respuesta.id).addClass('d-none');
-                    $('span_calificacion_')+respuesta.id.html('ssss');
-                    $('#caja_componente_span_'+respuesta.id).removeClass('d-none');
+                console.log(respuesta);
+                $('#form_'+respuesta.id).addClass('d-none');
+                $('#span_calificacion_'+respuesta.id).html(respuesta.nota);
+                $('#observacion_span_'+respuesta.id).html(respuesta.observacion);
+                $('#caja_componente_span_'+respuesta.id).removeClass('d-none');
+                Sistema.notificaciones('Componente calificado correctamente', 'Sistema', 'success');
 
-                } else {
-                    Sistema.notificaciones(
-                        "El registro no pudo ser eliminado, hay recursos usandolo",
-                        "Sistema",
-                        "error"
-                    );
-                }
             },
             error: function () {},
         });

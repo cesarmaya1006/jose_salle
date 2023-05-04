@@ -1,19 +1,6 @@
 <div class="row d-flex justify-content-center">
     <input type="hidden" name="personas_id" value="{{session('id_usuario')}}">
-    <div class="col-12 col-md-7">
-        <div class="form-group">
-            <label for="titulo" class="requerido">Título de la Propuesta</label>
-            <input type="text" class="form-control form-control-sm" name="titulo" id="titulo" aria-describedby="helpId"
-                value="{{ old('titulo', $propuesta->titulo ?? '') }}" placeholder="" required>
-        </div>
-    </div>
-    <div class="col-12 col-md-7">
-        <div class="form-group">
-            <label for="codigo" class="requerido">Código de la Propuesta</label>
-            <input type="text" class="form-control form-control-sm" name="codigo" id="codigo" aria-describedby="helpId"
-                value="{{ old('codigo', $propuesta->codigo ?? '') }}" placeholder="" required>
-        </div>
-    </div>
+    <input type="hidden" name="propuestas_id" value="{{$usuario->propuesta->id}}">
     <div class="col-12 col-md-7">
         <div class="form-group">
             <label for="descripcion" class="requerido">Descripción de la propuesta</label>
@@ -98,27 +85,27 @@
                                 </div>
                             </div>
                             @else
-                            @if ($sub_componente->sub_componente==='Canvas')
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="canvas">Subir Canvas</label>
-                                        <input type="file" class="form-control form-control-sm" name="canvas[]" id="canvas_{{$sub_componente->id}}" aria-describedby="helpId" accept="application/pdf">
-                                        <small id="helpId" class="form-text text-muted">Archivo en PDF unicamente</small>
+                                @if ($sub_componente->sub_componente==='Canvas')
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="canvas">Subir Canvas</label>
+                                            <input type="file" class="form-control form-control-sm" name="canvas" id="canvas_{{$sub_componente->id}}" aria-describedby="helpId" accept="application/pdf">
+                                            <small id="helpId" class="form-text text-muted">Archivo en PDF unicamente</small>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            @else
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="video">Subir video</label>
-                                        <input type="file" class="form-control form-control-sm" name="video[]" id="video_{{$sub_componente->id}}" aria-describedby="helpId" accept="video/mp4,video/mkv, video/x-m4v,video/*">
-                                        <small id="helpId" class="form-text text-muted">Solo archivos de video</small>
+                                @else
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="video">Subir video</label>
+                                            <input type="file" class="form-control form-control-sm" name="video" id="video_{{$sub_componente->id}}" aria-describedby="helpId" accept="video/mp4,video/mkv, video/x-m4v,video/*">
+                                            <small id="helpId" class="form-text text-muted">Solo archivos de video</small>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            @endif
+                                @endif
                             @endif
                         </div>
                         <div class="card-footer">

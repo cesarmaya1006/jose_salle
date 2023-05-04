@@ -53,18 +53,8 @@
                     </div>
                     <div class="col-12 col-md-5">
                         <div class="row">
-                            <div class="col-12"><h6><strong>Documento Canvas</strong></h6></div>
-                            <div class="col-12"><iframe src="{{asset('documentos/proyectos/'.$propuesta->canvas)}}" style="width:100%;height: 600pX;" frameborder="0" ></iframe></div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-5">
-                        <div class="row">
-                            <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
-                            <div class="col-12">
-                                <div class="video d-flex justify-content-center w-100" style="">
-                                    <video controls src="{{asset('documentos/proyectos/'.$propuesta->video)}}"></video>
-                                </div>
-                            </div>
+                            <div class="col-12"><h6><strong>Documento Informe</strong></h6></div>
+                            <div class="col-12"><iframe src="{{asset('documentos/proyectos/'.$propuesta->informe)}}" style="width:100%;height: 600pX;" frameborder="0" ></iframe></div>
                         </div>
                     </div>
                 </div>
@@ -85,7 +75,7 @@
                         <div id="flush-collapse{{$componente->id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$componente->id}}" data-bs-parent="#accordionComponentes">
                             <div class="row mt-4">
                                 @foreach ($componente->sub_componentes as $sub_componente)
-                                <div class="col-11 col-md-4">
+                                <div class="col-11 {{$sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video'? 'col-md-4' : 'col-md-6'}}">
                                     <div class="card card-outline">
                                         <div class="card-header">
                                             <div class="row">
@@ -100,17 +90,36 @@
                                                         @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
                                                         @php
                                                             $prim_fase_componentes_id = $componenteFaseUno->id;
+                                                            $cantNotas = $componenteFaseUno->notas->where('personas_id',session('id_usuario'))->count();
+                                                            foreach ($componenteFaseUno->notas->where('personas_id',session('id_usuario')) as $nota) {
+                                                                $nota_f =  $nota->calificacion;
+                                                                $observacion_f =  $nota->observacion;
+                                                            }
                                                         @endphp
                                                         @endif
                                                     @endforeach
-                                                    <div class="row d-none" id="caja_componente_span_{{$prim_fase_componentes_id}}">
+                                                    @if ($cantNotas>0)
+                                                    <div class="row" id="caja_componente_span_{{$prim_fase_componentes_id}}">
                                                         <div class="col-12 col-md-3 form-group">
                                                             <label for="calificacion" class="requerido">Calificación</label>
-                                                            <span class="form-control form-control-sm d-none" id="span_calificacion_{{$prim_fase_componentes_id}}"></span>
+                                                            <span class="form-control form-control-sm " id="span_calificacion_{{$prim_fase_componentes_id}}">
+                                                            {{$nota_f}}
+                                                            </span>
                                                         </div>
                                                         <div class="col-12 form-group">
                                                             <label for="observacion">Observaciones</label>
-                                                            <p class="d-none" id="oservacion_{{$prim_fase_componentes_id}}" style="text-align: justify"></p>
+                                                            <p class="" id="observacion_span_{{$prim_fase_componentes_id}}" style="text-align: justify">{{$observacion_f}}</p>
+                                                        </div>
+                                                    </div>
+                                                    @else
+                                                    <div class="row d-none" id="caja_componente_span_{{$prim_fase_componentes_id}}">
+                                                        <div class="col-12 col-md-3 form-group">
+                                                            <label for="calificacion" class="requerido">Calificación</label>
+                                                            <span class="form-control form-control-sm " id="span_calificacion_{{$prim_fase_componentes_id}}"></span>
+                                                        </div>
+                                                        <div class="col-12 form-group">
+                                                            <label for="observacion">Observaciones</label>
+                                                            <p class="" id="observacion_span_{{$prim_fase_componentes_id}}" style="text-align: justify"></p>
                                                         </div>
                                                     </div>
                                                     <form action="{{ route('calificar_primera_fase-guardar',['id'=>$prim_fase_componentes_id]) }}"
@@ -129,7 +138,7 @@
                                                             <div class="col-12 form-group">
                                                                 <label for="observacion">Observaciones</label>
                                                                 <textarea class="form-control form-control-sm" name="observacion" id="observacion_{{$prim_fase_componentes_id}}" cols="30" rows="5"></textarea>
-                                                                <small id="helpId" class="form-text text-muted">Componente</small>
+                                                                <small id="helpId" class="form-text text-muted">Observaciones</small>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -138,6 +147,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
+
+                                                    @endif
                                                 </div>
                                             </div>
                                             <hr style="border-bottom: 4px solid black;">
@@ -147,6 +158,7 @@
                                                 <div class="col-12">
                                                     <div class="row">
                                                         <div class="col-12"><strong>Sustentacion del componente</strong></div>
+                                                        @if ($sub_componente->sub_componente!='Canvas'&&$sub_componente->sub_componente!='Video')
                                                         <div class="col-12">
                                                             @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
                                                             @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
@@ -156,6 +168,38 @@
                                                             @endif
                                                             @endforeach
                                                         </div>
+                                                        @else
+                                                            @if ($sub_componente->sub_componente==='Canvas')
+                                                                @php
+                                                                    $contador =0;
+                                                                @endphp
+                                                                @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
+                                                                    @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
+                                                                    <div class="col-12">
+                                                                        <div class="row">
+                                                                            <div class="col-12"><h6><strong>Documento Canvas</strong></h6></div>
+                                                                            <div class="col-12"><iframe src="{{asset('documentos/proyectos/'.$componenteFaseUno->canvas)}}" style="width:100%;height: 600pX;" frameborder="0" ></iframe></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
+                                                                    @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
+                                                                    <div class="col-12">
+                                                                        <div class="row">
+                                                                            <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
+                                                                            <div class="col-12">
+                                                                                <div class="video d-flex justify-content-center w-100" style="">
+                                                                                    <video controls src="{{asset('documentos/proyectos/'.$componenteFaseUno->video)}}" style="max-width: 90%"></video>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
