@@ -29,7 +29,7 @@
                                 <th class="text-center">Emprendedor</th>
                                 <th class="text-center">Titulo</th>
                                 <th class="text-center">Descripción</th>
-                                <th class="text-center">Cant Componentes</th>
+                                <th class="text-center">Total Componentes</th>
                                 <th class="text-center">Componentes Calificados</th>
                                 <th></th>
                             </tr>
@@ -54,13 +54,15 @@
                                     @endforeach
                                 @endforeach
                                 @php
-                                    $porcentajeCalificado = number_format(($cantCalificado*100)/$cantComponentes,2,',','.');
+                                    $porcentajeCalificado = ($cantCalificado*100)/$cantComponentes;
+                                    $porcentajeCalificado_2 = number_format(($cantCalificado*100)/$cantComponentes,2,',','.');
                                 @endphp
                                 <tr>
                                     <td class="text-center">{{ $propuesta->id }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         @if ($porcentajeCalificado===0)
                                         <span class="badge bg-danger w-100">Propuesta sin calificar</span>
+                                        <p class="mt-2"><strong>0.0%</strong></p>
                                         @else
                                         <div class="progress w-100">
                                             <div class="progress-bar {{$porcentajeCalificado<=25? 'bg-danger':($porcentajeCalificado<=50?'bg-warning':($porcentajeCalificado<=75?'bg-info':($porcentajeCalificado<=99?'bg-primary':'bg-success')))}}"
@@ -69,9 +71,10 @@
                                                  aria-valuenow="{{$porcentajeCalificado}}"
                                                  aria-valuemin="0"
                                                  aria-valuemax="100">
-                                                 {{$porcentajeCalificado}}%
+                                                 {{$porcentajeCalificado_2}}%
                                             </div>
                                         </div>
+                                        <p class="mt-2"><strong>{{$porcentajeCalificado_2}}%</strong></p>
                                         @endif
                                     </td>
                                     <td>

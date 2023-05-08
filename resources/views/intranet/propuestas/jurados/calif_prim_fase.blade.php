@@ -75,7 +75,7 @@
                         <div id="flush-collapse{{$componente->id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$componente->id}}" data-bs-parent="#accordionComponentes">
                             <div class="row mt-4">
                                 @foreach ($componente->sub_componentes as $sub_componente)
-                                <div class="col-11 {{$sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video'? 'col-md-4' : 'col-md-6'}}">
+                                <div class="col-11 {{$sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video'? 'col-md-12' : 'col-md-6'}}">
                                     <div class="card card-outline">
                                         <div class="card-header">
                                             <div class="row">
@@ -135,9 +135,9 @@
                                                                 <input type="number" class="form-control form-control-sm number_calificacion" name="calificacion" id="calificacion_{{$prim_fase_componentes_id}}" min="0" max="10" value="0" required>
                                                                 <small id="helpId" class="form-text text-muted">valores entre 0-10</small>
                                                             </div>
-                                                            <div class="col-12 form-group">
+                                                            <div class="col-12 col-md-9 form-group">
                                                                 <label for="observacion">Observaciones</label>
-                                                                <textarea class="form-control form-control-sm" name="observacion" id="observacion_{{$prim_fase_componentes_id}}" cols="30" rows="5"></textarea>
+                                                                <textarea class="form-control form-control-sm" name="observacion" id="observacion_{{$prim_fase_componentes_id}}" cols="30" rows="2"></textarea>
                                                                 <small id="helpId" class="form-text text-muted">Observaciones</small>
                                                             </div>
                                                         </div>
@@ -154,7 +154,7 @@
                                             <hr style="border-bottom: 4px solid black;">
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
+                                            <div class="row" style="font-size: 1.4em;">
                                                 <div class="col-12">
                                                     <div class="row">
                                                         <div class="col-12"><strong>Sustentacion del componente</strong></div>

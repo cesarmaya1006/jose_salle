@@ -35,6 +35,16 @@ label.requerido:after {
     border-radius: 5px;
 }
 
+.accordion{
+    -webkit-box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.75);
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    border-radius: 2px;
+    border-top: 8px solid #fbb800;
+}
 .card-mini-sombra {
     -webkit-box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.75);

@@ -31,18 +31,21 @@ class PropuestaController extends Controller
         foreach ($propuestas as $propuesta) {
             switch ($propuesta->estado) {
                 case 1:
+                    $propuesta['estado_str'] = 'Sin registro completo';
+                    break;
+                case 2:
                     $propuesta['estado_str'] = 'Registrada sin calificaciones';
                     break;
 
-                case 2:
+                case 3:
                     $propuesta['estado_str'] = 'Con calificación 1era fase incompleta';
                     break;
 
-                case 3:
+                case 4:
                     $propuesta['estado_str'] = 'Con calificación 1era fase completa';
                     break;
 
-                case 4:
+                case 5:
                     $propuesta['estado_str'] = 'Con calificación 2da fase incompleta';
                     break;
                 default:
@@ -81,22 +84,31 @@ class PropuestaController extends Controller
         foreach ($propuestas as $propuesta) {
             switch ($propuesta->estado) {
                 case 1:
-                    $propuesta['estado_str'] = 'Registrada sin calificaciones';
+                    $propuesta['estado_str'] = 'Sin registro completo';
+                    $propuesta['barra_progreso'] = '<div class="progress"><div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>';
                     break;
-
                 case 2:
-                    $propuesta['estado_str'] = 'Con calificación 1era fase incompleta';
+                    $propuesta['estado_str'] = 'Registrada sin calificaciones';
+                    $propuesta['barra_progreso'] = '<div class="progress"><div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>';
                     break;
 
                 case 3:
-                    $propuesta['estado_str'] = 'Con calificación 1era fase completa';
+                    $propuesta['estado_str'] = 'Con calificación 1era fase incompleta';
+                    $propuesta['barra_progreso'] = '<div class="progress"><div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>';
                     break;
 
                 case 4:
+                    $propuesta['estado_str'] = 'Con calificación 1era fase completa';
+                    $propuesta['barra_progreso'] = '<div class="progress"><div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>';
+                    break;
+
+                case 5:
                     $propuesta['estado_str'] = 'Con calificación 2da fase incompleta';
+                    $propuesta['barra_progreso'] = '<div class="progress"><div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>';
                     break;
                 default:
                     $propuesta['estado_str'] = 'Con calificación 2da fase completa';
+                    $propuesta['barra_progreso'] = '<div class="progress"><div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>';
                 break;
             }
         }

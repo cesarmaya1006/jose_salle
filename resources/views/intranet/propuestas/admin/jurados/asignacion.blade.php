@@ -32,44 +32,80 @@
                     </div>
                 </div>
             </div>
-            <hr>
+        </div>
+        <div class="card-body pb-3">
             <div class="container-fluid">
-                @foreach ($propuestas as $propuesta)
                 <div class="row">
-                    <div class="col-12 mb-4">
-                        <h4>{{$propuesta->titulo}}</h4>
+                    <div class="col-12">
+                        <h4>Asignación de jurados a las propuestas</h4>
                     </div>
-                    @foreach ($jurados as $jurado)
-                    <div class="col-12 col-md-2">
-                        <div class="form-check">
-                            <input
-                                    class="form-check-input jurado_check"
-                                    type="checkbox"
-                                    data_url="{{route('propuestas-asignar_guardar',['persona_id' => $jurado->id,'propuesta_id' => $propuesta->id])}}"
-                                    name="persona_id"
-                                    value="{{$jurado->id}}"
-                                    id="jurado_{{$jurado->id}}"
-                                    @foreach ($propuesta->jurados as $item)
-                                    @if ($item->id === $jurado->id)
-                                    checked
-                                    @endif
-                                    @if ($item->notas_uno->count()>0)
-                                    disabled
-                                    @endif
-                                    @endforeach
-                                >
-                            <label class="form-check-label" for="flexCheckChecked">
-                                {{$jurado->nombre1 . ' ' . $jurado->nombre2 . ' ' . $jurado->apellido1 . ' ' . $jurado->apellido2}}
-                            </label>
-                        </div>
+                    <div class="col-12 responsive">
+                        <table class="table table-striped table-hover table-sm tabla_data_table">
+                            <thead class="thead-inverse">
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Propuesta</th>
+                                    <th class="text-center">Jurados</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($propuestas as $propuesta)
+                                <tr>
+                                    <td>{{$propuesta->id}}</td>
+                                    <td>
+                                        <h5><strong>{{$propuesta->titulo}}</strong></h5>
+                                        <h6>Emprendedor: <strong>{{$propuesta->emprendedor->nombre1 . ' ' . $propuesta->emprendedor->nombre2 . ' ' . $propuesta->emprendedor->apellido1 . ' ' . $propuesta->emprendedor->apellido2 }}</strong></h6>
+                                        Código: <strong>{{$propuesta->codigo}}</strong>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach ($jurados as $jurado)
+                                                <li style="list-style:none">
+                                                    <div class="form-check">
+                                                        <input
+                                                                class="form-check-input jurado_check"
+                                                                type="checkbox"
+                                                                data_url="{{route('propuestas-asignar_guardar',['persona_id' => $jurado->id,'propuesta_id' => $propuesta->id])}}"
+                                                                name="persona_id"
+                                                                value="{{$jurado->id}}"
+                                                                id="jurado_{{$jurado->id}}"
+                                                                @foreach ($propuesta->jurados as $item)
+                                                                    @if ($item->id === $jurado->id)
+                                                                    checked
+                                                                    @endif
+                                                                @endforeach
+                                                                @php
+                                                                    $check_disable =0;
+                                                                    foreach ($propuesta->componentesFaseUno as $componenteFaseUno) {
+                                                                        foreach ($componenteFaseUno->notas as $nota) {
+                                                                           if ($jurado->id === $nota->personas_id) {
+                                                                            $check_disable =1;
+                                                                           }
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                                @if ($check_disable)
+                                                                disabled
+                                                                @endif
+                                                            >
+                                                        <label class="form-check-label" for="flexCheckChecked" style="font-size: 1.3em;">
+                                                            {{$jurado->nombre1 . ' ' . $jurado->nombre2 . ' ' . $jurado->apellido1 . ' ' . $jurado->apellido2}}
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    @endforeach
-                </div>
-                @endforeach
-                <div class="row">
-
                 </div>
             </div>
+        </div>
+        <div class="card-footer">
+
         </div>
     </div>
 @endsection

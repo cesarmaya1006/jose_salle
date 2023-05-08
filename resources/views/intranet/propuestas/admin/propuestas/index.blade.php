@@ -69,18 +69,31 @@
                                         <td class="text-center">
                                             <strong>{{$propuesta->jurados->Count()}}</strong>
                                         </td>
-                                        <td class="text-center">{{ $propuesta->estado_str }}</td>
+                                        <td class="text-center">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    {{ $propuesta->estado_str}}
+                                                </div>
+                                                <div class="col-12">
+                                                    {!!$propuesta->barra_progreso!!}
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td class="text-center">{{ $propuesta->promedio_primera??'Sin Calificación' }}</td>
                                         <td class="text-center">{{ $propuesta->promedio_segunda??'Sin Calificación' }}</td>
                                         @if (session('rol_id') < 3)
                                         <td class="text-center">{{ $propuesta->promedio_segunda==null?'N/A': ($propuesta->promedio_segunda>3?'Pasa':'No pasa')}}</td>
                                         @endif
                                         <td>
-                                        @if ($propuesta->jurados->Count()>0)
-                                            <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-info bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3">ModificarJurados</a>
-                                        @else
-                                        <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-danger bg-gradient btn-sombra btn-xs pl-3 pr-3">Asignar Jurados</a>
-                                        @endif
+                                            @if ($propuesta->estado==1)
+                                                {{ $propuesta->estado_str}}
+                                            @else
+                                                @if ($propuesta->jurados->Count()>0)
+                                                    <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-info bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3">ModificarJurados</a>
+                                                @else
+                                                    <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-danger bg-gradient btn-sombra btn-xs pl-3 pr-3">Asignar Jurados</a>
+                                                @endif
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

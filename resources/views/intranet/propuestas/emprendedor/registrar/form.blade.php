@@ -4,13 +4,14 @@
     <div class="col-12 col-md-7">
         <div class="form-group">
             <label for="descripcion" class="requerido">Descripción de la propuesta</label>
-            <textarea class="form-control form-control-sm" name="descripcion" id="descripcion" cols="30" rows="5" required>{{$propuesta->descripcion?? ''}}</textarea>
+            <textarea class="form-control form-control-sm" name="descripcion" id="descripcion" cols="30" rows="5" maxlength="260" required>{{$propuesta->descripcion?? ''}}</textarea>
+            <small id="helpId" class="form-text text-muted">Maximo 260 caracteres (Incluyendo espacios.)</small>
         </div>
     </div>
     <div class="col-12 col-md-7">
         <div class="form-group">
-            <label for="informe">Informe General</label>
-            <input type="file" class="form-control form-control-sm" name="informe" id="informe" aria-describedby="helpId" accept="application/pdf">
+            <label class="requerido" for="informe">Informe General</label>
+            <input type="file" class="form-control form-control-sm" name="informe" id="informe" aria-describedby="helpId" accept="application/pdf" required>
             <small id="helpId" class="form-text text-muted">Archivo en PDF unicamente</small>
         </div>
     </div>
@@ -32,7 +33,7 @@
         <div id="flush-collapse{{$componente->id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$componente->id}}" data-bs-parent="#accordionComponentes">
             <div class="row mt-4">
                 @foreach ($componente->sub_componentes as $sub_componente)
-                <div class="col-11 col-md-4">
+                <div class="col-12">
                     <div class="card card-outline">
                         <div class="card-header">
                             <h6 class="card-title"><strong>{{$sub_componente->sub_componente}}</strong></h6>

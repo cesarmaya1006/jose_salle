@@ -33,8 +33,13 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('propuestas-guardar') }}" class="form-horizontal"
-            method="POST" autocomplete="off" enctype="multipart/form-data">
+        <form
+            action="{{ route('propuestas-guardar') }}"
+            class="form-horizontal"
+            method="POST"
+            autocomplete="off"
+            enctype="multipart/form-data"
+            id="form_propuesta_guardar">
             @csrf
             @method('post')
             <div class="card-body">
@@ -42,7 +47,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer mb-4">
-                <button type="submit" class="btn btn-primary bg-gradient btn-sombra pl-5 pr-5">Registrar</button>
+                <button type="submit" class="btn btn-primary bg-gradient btn-sombra pl-5 pr-5" id="boton_registrar">Registrar</button>
             </div>
             <!-- /.card-footer -->
         </form>

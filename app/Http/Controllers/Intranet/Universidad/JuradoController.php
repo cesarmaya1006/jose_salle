@@ -82,7 +82,22 @@ class JuradoController extends Controller
             }
             $finalPromedio = $notaFinal/$componentes->count();
             $propuestaUpdate['promedio_primera'] = $finalPromedio;
-
+            //------------------------------------------------------------------------------------------
+            $cantSubComponentes = 0;
+            foreach ($componentes as $componente) {
+                $cantSubComponentes+= $componente->sub_componentes->count();
+            }
+            $cantJurados = $propuesta->jurados->count();
+            $cantNotasCalificadas =0;
+            foreach ($propuesta->componentesFaseUno as $componenteFaseUno) {
+                $cantNotasCalificadas+= $componenteFaseUno->notas->count();
+            }
+            if ($cantNotasCalificadas==($cantSubComponentes*$cantJurados)) {
+                $propuestaUpdate['estado'] = 4;
+            }else{
+                $propuestaUpdate['estado'] = 3;
+            }
+            //------------------------------------------------------------------------------------------
             Propuesta::findOrFail($propuesta->id)->update($propuestaUpdate);
             $resp = 'Propuesta calificada con exito';
             return response()->json(['mensaje' => 'ok','propuesta' => $propuesta,'id'=>$id,'resp'=>$resp,'observacion'=>$observacion,'nota'=>$nota]);
