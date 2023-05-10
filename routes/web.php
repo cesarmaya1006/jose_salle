@@ -186,6 +186,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('calificar-primera-fase/{id}', [JuradoController::class,'calificar_primera_fase',])->name('calificar_primera_fase');
     Route::post('calificar-primera-fase/{id}/guardar', [JuradoController::class, 'calificar_primera_fase_guardar'])->name('calificar_primera_fase-guardar');
     //====================================================================================================================================================================
+    //Exportar a PDF
+    Route::get('exportar_notas/{id}', [PropuestaController::class,'exportar_notas',])->name('exportar_notas');
 
 
 

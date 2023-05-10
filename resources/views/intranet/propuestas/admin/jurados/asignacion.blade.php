@@ -50,6 +50,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($propuestas as $propuesta)
+                                @if ($propuesta->estado>1)
                                 <tr>
                                     <td>{{$propuesta->id}}</td>
                                     <td>
@@ -97,6 +98,7 @@
                                         </ul>
                                     </td>
                                 </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>

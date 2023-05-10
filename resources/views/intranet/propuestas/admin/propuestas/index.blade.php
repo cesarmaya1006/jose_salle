@@ -46,10 +46,10 @@
                                     <th class="text-center">Jurados Asignados</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Nota Promedio 1era Fase</th>
-                                    <th class="text-center">Nota Promedio 2da Fase</th>
                                     @if (session('rol_id') < 3)
                                     <th class="text-center">Pasa SI / NO</th>
                                     @endif
+                                    <th class="text-center">Nota Promedio 2da Fase</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -80,18 +80,22 @@
                                             </div>
                                         </td>
                                         <td class="text-center">{{ $propuesta->promedio_primera??'Sin Calificación' }}</td>
-                                        <td class="text-center">{{ $propuesta->promedio_segunda??'Sin Calificación' }}</td>
                                         @if (session('rol_id') < 3)
-                                        <td class="text-center">{{ $propuesta->promedio_segunda==null?'N/A': ($propuesta->promedio_segunda>3?'Pasa':'No pasa')}}</td>
+                                            <td class="text-center">{{ $propuesta->promedio_segunda==null?'N/A': ($propuesta->promedio_segunda>3?'Pasa':'No pasa')}}</td>
                                         @endif
+                                        <td class="text-center">{{ $propuesta->promedio_segunda??'Sin Calificación' }}</td>
                                         <td>
                                             @if ($propuesta->estado==1)
                                                 {{ $propuesta->estado_str}}
                                             @else
-                                                @if ($propuesta->jurados->Count()>0)
-                                                    <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-info bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3">ModificarJurados</a>
+                                                @if ($propuesta->estado<4)
+                                                    @if ($propuesta->jurados->Count()>0)
+                                                        <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-success bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3">ModificarJurados</a>
+                                                    @else
+                                                        <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-danger bg-gradient btn-sombra btn-xs pl-3 pr-3">Asignar Jurados</a>
+                                                    @endif
                                                 @else
-                                                    <a href="{{route('propuestas-asignar',['id' => $propuesta->id])}}" class="btn btn-danger bg-gradient btn-sombra btn-xs pl-3 pr-3">Asignar Jurados</a>
+                                                    <a href="{{route('exportar_notas',['id' => $propuesta->id])}}" class="btn btn-info bg-gradient btn-sombra btn-xs pl-3 pr-3 ml-3"><i class="fas fa-file-download    "></i> Descargar Informe</a>
                                                 @endif
                                             @endif
                                         </td>

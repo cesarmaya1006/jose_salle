@@ -52,7 +52,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="row">
-                                                @if ($sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video')
+                                                @if ($sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video' && $sub_componente->sub_componente !='Propuesta de cofinanciamiento')
                                                 <div class="col-12"><strong>Sustentacion del componente</strong></div>
                                                 <div class="col-12">
                                                     @foreach ($usuario->persona->propuesta->componentesFaseUno as $componenteFaseUno)
@@ -79,20 +79,33 @@
                                                             @endif
                                                         @endforeach
                                                     @else
-                                                        @foreach ($usuario->persona->propuesta->componentesFaseUno as $componenteFaseUno)
-                                                            @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
-                                                            <div class="col-12">
-                                                                <div class="row">
-                                                                    <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
-                                                                    <div class="col-12">
-                                                                        <div class="video d-flex justify-content-center w-100" style="">
-                                                                            <video controls src="{{asset('documentos/proyectos/'.$componenteFaseUno->video)}}" style="max-width: 90%"></video>
+                                                        @if ($sub_componente->sub_componente==='Video')
+                                                            @foreach ($usuario->persona->propuesta->componentesFaseUno as $componenteFaseUno)
+                                                                @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
+                                                                <div class="col-12">
+                                                                    <div class="row">
+                                                                        <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
+                                                                        <div class="col-12">
+                                                                            <div class="embed-responsive embed-responsive-16by9 w-100">
+                                                                                <iframe width="560" height="315" src="{{$componenteFaseUno->video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            @endif
-                                                        @endforeach
+                                                                @endif
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($usuario->persona->propuesta->componentesFaseUno as $componenteFaseUno)
+                                                                @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
+                                                                <div class="col-12">
+                                                                    <div class="row">
+                                                                        <div class="col-12"><h6><strong>Propuesta de cofinanciamiento</strong></h6></div>
+                                                                        <div class="col-12"><a href="{{asset('documentos/proyectos/'.$componenteFaseUno->excel)}}" target="_blank" rel="noopener noreferrer">Documento Propuesta</a></div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
                                                     @endif
                                                 @endif
                                             </div>

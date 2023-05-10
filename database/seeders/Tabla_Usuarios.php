@@ -54,6 +54,55 @@ class Tabla_Usuarios extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         //------------------------------------------------------
+        $jurados=[
+            ['usuario' =>'josé.medina','password' =>'79611924', 'identificacion' => '79611924', 'nombre1' => 'José', 'nombre2' => 'Gregorio', 'apellido1' => 'Medina', 'apellido2' => 'Cepeda', 'telefono' => '3138872295','email' => 'jgmedina@unisalle.edu.co'],
+            ['usuario' =>'rubén.díaz','password' =>'91455827', 'identificacion' => '91455827', 'nombre1' => 'Rubén', 'nombre2' => 'Darío', 'apellido1' => 'Díaz', 'apellido2' => 'Mateus', 'telefono' => '3003017403','email' => 'rudiaz@unisalle.edu.co'],
+            ['usuario' =>'juan.bravo','password' =>'79054021', 'identificacion' => '79054021', 'nombre1' => 'Juan', 'nombre2' => 'Hernando', 'apellido1' => 'Bravo', 'apellido2' => 'Reyes', 'telefono' => '3143312813','email' => 'jbravo@unisalle.edu.co'],
+            ['usuario' =>'omar.sierra','password' =>'79882924', 'identificacion' => '79882924', 'nombre1' => 'Omar', 'nombre2' => 'Andrés', 'apellido1' => 'Sierra', 'apellido2' => 'Morales', 'telefono' => '3102838947','email' => 'osierra@unisalle.edu.co'],
+            ['usuario' =>'carlos.ortega','password' =>'1032383639', 'identificacion' => '1032383639', 'nombre1' => 'Carlos', 'nombre2' => 'Eduardo', 'apellido1' => 'Ortega', 'apellido2' => 'Peña', 'telefono' => '3043807945','email' => 'cortega@unisalle.edu.co'],
+            ['usuario' =>'elena.infante','password' =>'52496625', 'identificacion' => '52496625', 'nombre1' => 'Elena Del Pilar', 'nombre2' => null, 'apellido1' => 'Infante', 'apellido2' => 'Sánchez', 'telefono' => '3012324449','email' => 'einfante@unisalle.edu.co'],
+            ['usuario' =>'wilson.garcía','password' =>'93395675', 'identificacion' => '93395675', 'nombre1' => 'Wilson', 'nombre2' => 'Oviedo', 'apellido1' => 'García', 'apellido2' => null, 'telefono' => '3187556034','email' => 'woviedo@unisalle.edu.co'],
+            ['usuario' =>'sander.rangel','password' =>'88157907', 'identificacion' => '88157907', 'nombre1' => 'Sander', 'nombre2' => 'Alberto', 'apellido1' => 'Rangel', 'apellido2' => 'Jiménez', 'telefono' => '3158057865','email' => 'sarangel@lasalle.edu.co'],
+        ];
+        $usuario_id = 3;
+        foreach ($jurados as $key => $value) {
+
+            DB::table('usuarios')->insert([
+                'usuario' =>  $value['usuario'],
+                'password' => bcrypt($value['password']),
+                'camb_password' => '0',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+            DB::table('users')->insert([
+                'name' => $value['email'],
+                'email' => $value['email'],
+                'password' => bcrypt($value['password']),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+
+            DB::table('usuario_rol')->insert([
+                'rol_id' => 3,
+                'usuario_id' => $usuario_id,
+                'estado' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+            DB::table('personas')->insert([
+                'id' =>  $usuario_id,
+                'docutipos_id' => 1,
+                'identificacion' => $value['identificacion'],
+                'nombre1' => $value['nombre1'],
+                'nombre2' => $value['nombre2'],
+                'apellido1' => $value['apellido1'],
+                'apellido2' => $value['apellido2'],
+                'telefono' => $value['telefono'],
+                'email' => $value['email'],
+                'estado' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+            $usuario_id++;
+        }
+        /*
+        //---------------------------------------------------------------------
         DB::table('usuarios')->insert([
             'usuario' => 'jose.medina',
             'password' => bcrypt('79611924'),
@@ -185,6 +234,7 @@ class Tabla_Usuarios extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         //------------------------------------------------------
+        */
         $usuarios = [
             ['usuario' => 'natalia.garzon', 'password' => '1073516926'],
             ['usuario' => 'ronald.delgado', 'password' => '80214918'],
@@ -207,7 +257,7 @@ class Tabla_Usuarios extends Seeder
             ['usuario' => 'dirley.laverde', 'password' => '52664146'],
             ['usuario' => 'michael.guanume', 'password' => '1073245448'],
             ['usuario' => 'carlos.castillo', 'password' => '80072004'],
-            ['usuario' => 'alejandro.aguja', 'password' => '1110176947'],
+            //['usuario' => 'alejandro.aguja', 'password' => '1110176947'],
             ['usuario' => 'alida.lopez', 'password' => '41790002'],
             ['usuario' => 'leidy.urbano', 'password' => '52664617'],
             ['usuario' => 'estefania.sanchez', 'password' => '1073507466'],
@@ -218,7 +268,7 @@ class Tabla_Usuarios extends Seeder
             ['usuario' => 'wigsthon.osorio', 'password' => '79904206'],
             ['usuario' => 'maria.sierra', 'password' => '1018451821'],
             ['usuario' => 'elisa.torres', 'password' => '35531863'],
-            ['usuario' => 'juan.zamora', 'password' => '1003703923'],
+            //['usuario' => 'juan.zamora', 'password' => '1003703923'],
             ['usuario' => 'luz.pita', 'password' => '52751529'],
             ['usuario' => 'dennys.nauza', 'password' => '52229631'],
             ['usuario' => 'omar.marquez', 'password' => '1066511136'],
@@ -230,14 +280,14 @@ class Tabla_Usuarios extends Seeder
             ['usuario' => 'natalia.rodriguez', 'password' => '1073515408'],
             ['usuario' => 'sebastian.mejia', 'password' => '80656884'],
             ['usuario' => 'angelica.portuguez', 'password' => '53062274'],
-            ['usuario' => 'maria.torres', 'password' => '1073527702'],
+            //['usuario' => 'maria.torres', 'password' => '1073527702'],
             ['usuario' => 'darin.beltran', 'password' => '1073516902'],
             ['usuario' => 'marlon.angarita', 'password' => '1073505494'],
             ['usuario' => 'dora.diaz', 'password' => '40987739'],
             ['usuario' => 'julio.buitrago', 'password' => '1193555077'],
             ['usuario' => 'fredy.diaz', 'password' => '1068973254'],
             ['usuario' => 'evelio.rozo', 'password' => '80656209'],
-            ['usuario' => 'luis.naranjo', 'password' => '80383236'],
+            //['usuario' => 'luis.naranjo', 'password' => '80383236'],
             ['usuario' => 'orlando.camelo', 'password' => '79306162'],
             ['usuario' => 'yeisson.fuquen', 'password' => '1136888847'],
             ['usuario' => 'esneda.lopez', 'password' => '52661403'],
@@ -281,7 +331,6 @@ class Tabla_Usuarios extends Seeder
             ['name' => 'dirleylaverde@gmail.com', 'email' => 'dirleylaverde@gmail.com','password'=>'52664146'],
             ['name' => 'dgfinanciero@gmail.com', 'email' => 'dgfinanciero@gmail.com','password'=>'1073245448'],
             ['name' => 'castell007@gmail.com', 'email' => 'castell007@gmail.com','password'=>'80072004'],
-            ['name' => 'alejo12xm@gmail.com', 'email' => 'alejo12xm@gmail.com','password'=>'1110176947'],
             ['name' => 'alidalperez@gmail.com', 'email' => 'alidalperez@gmail.com','password'=>'41790002'],
             ['name' => 'gerencia.urbanotex@gmail.com', 'email' => 'gerencia.urbanotex@gmail.com','password'=>'52664617'],
             ['name' => 'tefa8980@hotmail.com', 'email' => 'tefa8980@hotmail.com','password'=>'1073507466'],
@@ -292,7 +341,7 @@ class Tabla_Usuarios extends Seeder
             ['name' => 'colsolutech@gmail.com', 'email' => 'colsolutech@gmail.com','password'=>'79904206'],
             ['name' => 'malejasb10@hotmail.com', 'email' => 'malejasb10@hotmail.com','password'=>'1018451821'],
             ['name' => 'elisaparedes459@gmail.com', 'email' => 'elisaparedes459@gmail.com','password'=>'35531863'],
-            ['name' => 'juancotube36@gmail.com', 'email' => 'juancotube36@gmail.com','password'=>'1003703923'],
+            //['name' => 'juancotube36@gmail.com', 'email' => 'juancotube36@gmail.com','password'=>'1003703923'],
             ['name' => 'lupita.cyc@gmail.com', 'email' => 'lupita.cyc@gmail.com','password'=>'52751529'],
             ['name' => 'lorenanauza@hotmail.com', 'email' => 'lorenanauza@hotmail.com','password'=>'52229631'],
             ['name' => 'bioinsumoselleuse@gmail.com', 'email' => 'bioinsumoselleuse@gmail.com','password'=>'1066511136'],
@@ -304,14 +353,14 @@ class Tabla_Usuarios extends Seeder
             ['name' => 'bemvelo.natural@gmail.com', 'email' => 'bemvelo.natural@gmail.com','password'=>'1073515408'],
             ['name' => 'donsebastian40@gmail.com', 'email' => 'donsebastian40@gmail.com','password'=>'80656884'],
             ['name' => 'ayportuguez@gmail.com', 'email' => 'ayportuguez@gmail.com','password'=>'53062274'],
-            ['name' => 'mariat-emperatriz@hotmail.com', 'email' => 'mariat-emperatriz@hotmail.com','password'=>'1073527702'],
+            //['name' => 'mariat-emperatriz@hotmail.com', 'email' => 'mariat-emperatriz@hotmail.com','password'=>'1073527702'],
             ['name' => 'darineliana@gmail.com', 'email' => 'darineliana@gmail.com','password'=>'1073516902'],
             ['name' => 'zaquecerveceria@gmail.com', 'email' => 'zaquecerveceria@gmail.com','password'=>'1073505494'],
             ['name' => 'dolidisu@gmail.com', 'email' => 'dolidisu@gmail.com','password'=>'40987739'],
             ['name' => 'alexitosking15@gmail.com', 'email' => 'alexitosking15@gmail.com','password'=>'1193555077'],
             ['name' => '08freddydiaz@gmail.com', 'email' => '08freddydiaz@gmail.com','password'=>'1068973254'],
             ['name' => 'eveliorozocanas@gmail.com', 'email' => 'eveliorozocanas@gmail.com','password'=>'80656209'],
-            ['name' => 'lenaranjod@unal.edu.co', 'email' => 'lenaranjod@unal.edu.co','password'=>'80383236'],
+            //['name' => 'lenaranjod@unal.edu.co', 'email' => 'lenaranjod@unal.edu.co','password'=>'80383236'],
             ['name' => 'orlandom63@homail.com', 'email' => 'orlandom63@homail.com','password'=>'79306162'],
             ['name' => 'alejandro-gato27@outlook.es', 'email' => 'alejandro-gato27@outlook.es','password'=>'1136888847'],
             ['name' => 'esneda09@hotmail.com', 'email' => 'esneda09@hotmail.com','password'=>'52661403'],
@@ -332,13 +381,15 @@ class Tabla_Usuarios extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
         }
+        $usuario_id_2 = $usuario_id;
         for ($i=7; $i < 70; $i++) {
             DB::table('usuario_rol')->insert([
                 'rol_id' => 4,
-                'usuario_id' => $i,
+                'usuario_id' =>  $usuario_id,
                 'estado' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
+            $usuario_id++;
         }
         $personas = [
             ['id'=>'7','docutipos_id'=>1,'identificacion'=>'1073516926','nombre1'=>'Natalia','apellido1'=>'Garzon Betancourt','telefono'=>'3125317615','direccion'=>'mipeludoamigopetshop@gmail.com','email'=>'mipeludoamigopetshop@gmail.com',],
@@ -362,7 +413,7 @@ class Tabla_Usuarios extends Seeder
             ['id'=>'25','docutipos_id'=>1,'identificacion'=>'52664146','nombre1'=>'Dirley Andrea','apellido1'=>'Laverde Amaya','telefono'=>'3203233965','direccion'=>'dirleylaverde@gmail.com','email'=>'dirleylaverde@gmail.com',],
             ['id'=>'26','docutipos_id'=>1,'identificacion'=>'1073245448','nombre1'=>'Michael David','apellido1'=>'Guanume Roberto','telefono'=>'3176987812','direccion'=>'dgfinanciero@gmail.com','email'=>'dgfinanciero@gmail.com',],
             ['id'=>'27','docutipos_id'=>1,'identificacion'=>'80072004','nombre1'=>'Carlos Enrique','apellido1'=>'Castillo Torres','telefono'=>'3103060448','direccion'=>'castell007@gmail.com','email'=>'castell007@gmail.com',],
-            ['id'=>'28','docutipos_id'=>1,'identificacion'=>'1110176947','nombre1'=>'Alejandro','apellido1'=>'Aguja Leal','telefono'=>'3212047052','direccion'=>'alejo12xm@gmail.com','email'=>'alejo12xm@gmail.com',],
+            //['id'=>'28','docutipos_id'=>1,'identificacion'=>'1110176947asd','nombre1'=>'Alejandro','apellido1'=>'Aguja Leal','telefono'=>'3212047052','direccion'=>'alejo12xm@gmail.com','email'=>'alejo12xm@gmail.com',],
             ['id'=>'29','docutipos_id'=>1,'identificacion'=>'41790002','nombre1'=>'Alida','apellido1'=>'López Pérez','telefono'=>'3152729836','direccion'=>'alidalperez@gmail.com','email'=>'alidalperez@gmail.com',],
             ['id'=>'30','docutipos_id'=>1,'identificacion'=>'52664617','nombre1'=>'Leidy Johanna','apellido1'=>'Urbano Cifuentes','telefono'=>'3216764107','direccion'=>'gerencia.urbanotex@gmail.com','email'=>'gerencia.urbanotex@gmail.com',],
             ['id'=>'31','docutipos_id'=>1,'identificacion'=>'1073507466','nombre1'=>'Estefania','apellido1'=>'Sanchez Marin','telefono'=>'3043408582','direccion'=>'tefa8980@hotmail.com','email'=>'tefa8980@hotmail.com',],
@@ -373,7 +424,7 @@ class Tabla_Usuarios extends Seeder
             ['id'=>'36','docutipos_id'=>1,'identificacion'=>'79904206','nombre1'=>'Wigsthon Leonardo','apellido1'=>'Osorio Castañeda','telefono'=>'3027168611','direccion'=>'colsolutech@gmail.com','email'=>'colsolutech@gmail.com',],
             ['id'=>'37','docutipos_id'=>1,'identificacion'=>'1018451821','nombre1'=>'Maria Alejandra','apellido1'=>'Sierra Benitez','telefono'=>'3132235652','direccion'=>'malejasb10@hotmail.com','email'=>'malejasb10@hotmail.com',],
             ['id'=>'38','docutipos_id'=>1,'identificacion'=>'35531863','nombre1'=>'Elisa','apellido1'=>'Torres Paredes','telefono'=>'3013530673','direccion'=>'elisaparedes459@gmail.com','email'=>'elisaparedes459@gmail.com',],
-            ['id'=>'39','docutipos_id'=>1,'identificacion'=>'1003703923','nombre1'=>'Juan Manuel','apellido1'=>'Zamora','telefono'=>'3114666991','direccion'=>'juancotube36@gmail.com','email'=>'juancotube36@gmail.com',],
+            //['id'=>'39','docutipos_id'=>1,'identificacion'=>'1003703923','nombre1'=>'Juan Manuel','apellido1'=>'Zamora','telefono'=>'3114666991','direccion'=>'juancotube36@gmail.com','email'=>'juancotube36@gmail.com',],
             ['id'=>'40','docutipos_id'=>1,'identificacion'=>'52751529','nombre1'=>'Luz Dary','apellido1'=>'Pita Lizarazo','telefono'=>'3165265679','direccion'=>'lupita.cyc@gmail.com','email'=>'lupita.cyc@gmail.com',],
             ['id'=>'41','docutipos_id'=>1,'identificacion'=>'52229631','nombre1'=>'Dennys Lorena','apellido1'=>'Nauza Rios','telefono'=>'3138791535','direccion'=>'lorenanauza@hotmail.com','email'=>'lorenanauza@hotmail.com',],
             ['id'=>'42','docutipos_id'=>1,'identificacion'=>'1066511136','nombre1'=>'Omar Alexander','apellido1'=>'Márquez Martínez','telefono'=>'3103181438','direccion'=>'bioinsumoselleuse@gmail.com','email'=>'bioinsumoselleuse@gmail.com',],
@@ -385,14 +436,14 @@ class Tabla_Usuarios extends Seeder
             ['id'=>'48','docutipos_id'=>1,'identificacion'=>'1073515408','nombre1'=>'Natalia','apellido1'=>'Rodriguez Pardo','telefono'=>'3195140150','direccion'=>'bemvelo.natural@gmail.com','email'=>'bemvelo.natural@gmail.com',],
             ['id'=>'49','docutipos_id'=>1,'identificacion'=>'80656884','nombre1'=>'Sebastian Eduardo','apellido1'=>'Mejia Murillo','telefono'=>'3115104589','direccion'=>'donsebastian40@gmail.com','email'=>'donsebastian40@gmail.com',],
             ['id'=>'50','docutipos_id'=>1,'identificacion'=>'53062274','nombre1'=>'Angelica Yadira','apellido1'=>'Portuguez Niño','telefono'=>'3164144280','direccion'=>'ayportuguez@gmail.com','email'=>'ayportuguez@gmail.com',],
-            ['id'=>'51','docutipos_id'=>1,'identificacion'=>'1073527702','nombre1'=>'María José','apellido1'=>'Torres Fonseca','telefono'=>'3016407817','direccion'=>'mariat-emperatriz@hotmail.com','email'=>'mariat-emperatriz@hotmail.com',],
+            //['id'=>'51','docutipos_id'=>1,'identificacion'=>'1073527702','nombre1'=>'María José','apellido1'=>'Torres Fonseca','telefono'=>'3016407817','direccion'=>'mariat-emperatriz@hotmail.com','email'=>'mariat-emperatriz@hotmail.com',],
             ['id'=>'52','docutipos_id'=>1,'identificacion'=>'1073516902','nombre1'=>'Darin Eliana','apellido1'=>'Beltrán Riaño','telefono'=>'3222186541','direccion'=>'darineliana@gmail.com','email'=>'darineliana@gmail.com',],
             ['id'=>'53','docutipos_id'=>1,'identificacion'=>'1073505494','nombre1'=>'Marlon','apellido1'=>'Angarita','telefono'=>'3005767000','direccion'=>'zaquecerveceria@gmail.com','email'=>'zaquecerveceria@gmail.com',],
             ['id'=>'54','docutipos_id'=>1,'identificacion'=>'40987739','nombre1'=>'Dora Liliana','apellido1'=>'Díaz Suavita','telefono'=>'3175245638','direccion'=>'dolidisu@gmail.com','email'=>'dolidisu@gmail.com',],
             ['id'=>'55','docutipos_id'=>1,'identificacion'=>'1193555077','nombre1'=>'Julio Alejandro','apellido1'=>'Buitrago López','telefono'=>'3204961436','direccion'=>'alexitosking15@gmail.com','email'=>'alexitosking15@gmail.com',],
             ['id'=>'56','docutipos_id'=>1,'identificacion'=>'1068973254','nombre1'=>'Fredy Adrian','apellido1'=>'Díaz Rivera','telefono'=>'3125734258','direccion'=>'08freddydiaz@gmail.com','email'=>'08freddydiaz@gmail.com',],
             ['id'=>'57','docutipos_id'=>1,'identificacion'=>'80656209','nombre1'=>'Evelio','apellido1'=>'Rozo Cañas','telefono'=>'3125206346','direccion'=>'eveliorozocanas@gmail.com','email'=>'eveliorozocanas@gmail.com',],
-            ['id'=>'58','docutipos_id'=>1,'identificacion'=>'80383236','nombre1'=>'Luis Enrique','apellido1'=>'Naranjo Delgado','telefono'=>'3174393025','direccion'=>'lenaranjod@unal.edu.co','email'=>'lenaranjod@unal.edu.co',],
+            //['id'=>'58','docutipos_id'=>1,'identificacion'=>'80383236','nombre1'=>'Luis Enrique','apellido1'=>'Naranjo Delgado','telefono'=>'3174393025','direccion'=>'lenaranjod@unal.edu.co','email'=>'lenaranjod@unal.edu.co',],
             ['id'=>'59','docutipos_id'=>1,'identificacion'=>'79306162','nombre1'=>'Orlando Marin','apellido1'=>'Camelo Cardenas','telefono'=>'3134001108','direccion'=>'orlandom63@homail.com','email'=>'orlandom63@homail.com',],
             ['id'=>'60','docutipos_id'=>1,'identificacion'=>'1136888847','nombre1'=>'Yeisson Alejandro','apellido1'=>'Fuquen Carrillo','telefono'=>'3204595829','direccion'=>'alejandro-gato27@outlook.es','email'=>'alejandro-gato27@outlook.es',],
             ['id'=>'61','docutipos_id'=>1,'identificacion'=>'52661403','nombre1'=>'Esneda','apellido1'=>'Lopez Ramírez','telefono'=>'3174359491','direccion'=>'esneda09@hotmail.com','email'=>'esneda09@hotmail.com',],
@@ -408,7 +459,7 @@ class Tabla_Usuarios extends Seeder
         ];
         foreach ($personas as $key => $value) {
             DB::table('personas')->insert([
-                'id' => $value['id'],
+                'id' => $usuario_id_2,
                 'docutipos_id' => $value['docutipos_id'],
                 'identificacion' => $value['identificacion'],
                 'nombre1' => $value['nombre1'],
@@ -419,6 +470,7 @@ class Tabla_Usuarios extends Seeder
                 'estado' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
+            $usuario_id_2++;
         }
     }
 }

@@ -23,6 +23,7 @@ class CreatePrimFaseComponentesTable extends Migration
             $table->float('not_promedio')->nullable();
             $table->string('canvas',255)->nullable();
             $table->string('video',255)->nullable();
+            $table->string('excel',255)->nullable();
             $table->integer('estado')->default(1);
             $table->timestamps();
             $table->charset = 'utf8';

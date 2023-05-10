@@ -104,8 +104,16 @@ CONVOCATORIA Nª 01 DE 2022 DEL FONDO DE EMPRENDIMIENTO DE FUNZA – FEMF
                             }
                         $notasComponentes[$componente->id]= $nota_ini/$componente->sub_componentes->count();
                     }
-                    $notaFinalPropuesta = array_sum($notasComponentes)/count($notasComponentes);
-                    $porcentajeCalificado = number_format(($cantNotas*100)/($cantJurados * $cantComponentes),'2','.',',');
+                    if (count($notasComponentes)==0) {
+                        $notaFinalPropuesta = array_sum($notasComponentes)/1;
+                    } else {
+                        $notaFinalPropuesta = array_sum($notasComponentes)/count($notasComponentes);
+                    }
+                    if ($cantJurados==0) {
+                        $porcentajeCalificado = number_format(($cantNotas*100)/(1 * $cantComponentes),'2','.',',');
+                    } else {
+                        $porcentajeCalificado = number_format(($cantNotas*100)/($cantJurados * $cantComponentes),'2','.',',');
+                    }
                 @endphp
                 <div class="container-fluid">
                     <div class="row">
@@ -120,7 +128,7 @@ CONVOCATORIA Nª 01 DE 2022 DEL FONDO DE EMPRENDIMIENTO DE FUNZA – FEMF
                                 @if ($cantNotas===($cantJurados * $cantComponentes))
                                 <div class="alert alert-success alert-dismissible">
                                     <h5><i class="icon fas fa-check"></i> Propuesta Completamente Calificada</h5>
-                                    <h5>Nota promedio de la Propuesta: <strong>{{number_format($notaFinalPropuesta,2,'.',',')}}</strong></h5>
+                                    <h5>Calificación Final de la Propuesta: <strong>{{number_format($notaFinalPropuesta,2,'.',',')}}</strong></h5>
                                     <p>Porcentaje calificado: {{$porcentajeCalificado}} %</p>
                                     </div>
                                 @else
@@ -211,11 +219,15 @@ CONVOCATORIA Nª 01 DE 2022 DEL FONDO DE EMPRENDIMIENTO DE FUNZA – FEMF
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="row">
-                                                            @if ($sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video')
+                                                            @if ($sub_componente->sub_componente!='Canvas' && $sub_componente->sub_componente!='Video' && $sub_componente->sub_componente !='Propuesta de cofinanciamiento')
                                                                 @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
                                                                     @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
                                                                     <div class="col-12 mb-2">
+                                                                        @if ($cantJurados===0)
+                                                                        <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/1,2,'.',',')}}</strong></h6>
+                                                                        @else
                                                                         <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/$cantJurados,2,'.',',')}}</strong></h6>
+                                                                        @endif
                                                                     </div>
                                                                     <div class="col-12 mb-4">
                                                                         <table class="table">
@@ -262,7 +274,11 @@ CONVOCATORIA Nª 01 DE 2022 DEL FONDO DE EMPRENDIMIENTO DE FUNZA – FEMF
                                                                     @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
                                                                         @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
                                                                         <div class="col-12 mb-2">
+                                                                            @if ($cantJurados==0)
+                                                                            <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/1,2,'.',',')}}</strong></h6>
+                                                                            @else
                                                                             <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/$cantJurados,2,'.',',')}}</strong></h6>
+                                                                            @endif
                                                                         </div>
                                                                         <div class="col-12 mb-4">
                                                                             <table class="table">
@@ -301,10 +317,65 @@ CONVOCATORIA Nª 01 DE 2022 DEL FONDO DE EMPRENDIMIENTO DE FUNZA – FEMF
                                                                         @endif
                                                                     @endforeach
                                                                 @else
+                                                                    @if ($sub_componente->sub_componente==='Video')
+                                                                        @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
+                                                                            @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
+                                                                            <div class="col-12 mb-2">
+                                                                                @if ($cantJurados==0)
+                                                                                <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/1,2,'.',',')}}</strong></h6>
+                                                                                @else
+                                                                                <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/$cantJurados,2,'.',',')}}</strong></h6>
+                                                                                @endif
+                                                                            </div>
+                                                                            <div class="col-12 mb-4">
+                                                                                <table class="table">
+                                                                                    <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col">#</th>
+                                                                                        <th scope="col">Jurado</th>
+                                                                                        <th scope="col">Nota</th>
+                                                                                        <th scope="col">Observación</th>
+                                                                                    </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        @php
+                                                                                            $contador = 0;
+                                                                                        @endphp
+                                                                                        @foreach ($componenteFaseUno->notas as $nota)
+                                                                                            @php
+                                                                                                $contador ++;
+                                                                                            @endphp
+                                                                                        <tr>
+                                                                                            <th scope="row">Nota {{$contador}}</th>
+                                                                                            <td>{{$nota->jurado->nombre1 . ' ' . $nota->jurado->nombre2 . ' ' . $nota->jurado->apellido1 . ' ' . $nota->jurado->apellido2}}</td>
+                                                                                            <td>{{$nota->calificacion}}</td>
+                                                                                            <td>{{$nota->observacion}}</td>
+                                                                                        </tr>
+                                                                                        @endforeach
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                <div class="row">
+                                                                                    <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
+                                                                                    <div class="col-12">
+                                                                                        <div class="embed-responsive embed-responsive-16by9 w-100">
+                                                                                            <iframe width="560" height="315" src="{{$componenteFaseUno->video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @else
                                                                     @foreach ($propuesta->componentesFaseUno as $componenteFaseUno)
                                                                         @if ($componenteFaseUno->sub_componente_id === $sub_componente->id)
                                                                         <div class="col-12 mb-2">
+                                                                            @if ($cantJurados==0)
+                                                                            <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/1,2,'.',',')}}</strong></h6>
+                                                                            @else
                                                                             <h6>Nota Promedio: <strong>{{number_format($componenteFaseUno->notas->sum('calificacion')/$cantJurados,2,'.',',')}}</strong></h6>
+                                                                            @endif
                                                                         </div>
                                                                         <div class="col-12 mb-4">
                                                                             <table class="table">
@@ -336,16 +407,13 @@ CONVOCATORIA Nª 01 DE 2022 DEL FONDO DE EMPRENDIMIENTO DE FUNZA – FEMF
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <div class="row">
-                                                                                <div class="col-12"><h6><strong>Video Apoyo</strong></h6></div>
-                                                                                <div class="col-12">
-                                                                                    <div class="video d-flex justify-content-center w-100" style="">
-                                                                                        <video controls src="{{asset('documentos/proyectos/'.$componenteFaseUno->video)}}" style="max-width: 90%"></video>
-                                                                                    </div>
-                                                                                </div>
+                                                                                <div class="col-12"><h6><strong>Propuesta de cofinanciamiento descargar</strong></h6></div>
+                                                                                <div class="col-12"><a href="{{asset('documentos/proyectos/'.$componenteFaseUno->excel)}}" target="_blank" rel="noopener noreferrer">Documento Propuesta</a></div>
                                                                             </div>
                                                                         </div>
                                                                         @endif
                                                                     @endforeach
+                                                                    @endif
                                                                 @endif
                                                             @endif
                                                         </div>

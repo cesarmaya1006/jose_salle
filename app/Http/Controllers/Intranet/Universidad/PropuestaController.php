@@ -14,6 +14,7 @@ use App\Models\Universidad\PrimFaseComponente;
 use App\Models\Universidad\Propuesta;
 use App\Models\Universidad\SegFaseComponente;
 use App\Models\Universidad\SubComponente;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Intervention\Image\Facades\Image as InterventionImage;
@@ -111,6 +112,7 @@ class PropuestaController extends Controller
                     $propuesta['barra_progreso'] = '<div class="progress"><div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>';
                 break;
             }
+
         }
         return view('intranet.propuestas.admin.propuestas.index',compact('propuestas'));
     }
@@ -170,6 +172,9 @@ class PropuestaController extends Controller
         //======================================================
         //Propuesta
         $propuesta_new['descripcion'] = $request['descripcion'];
+        $propuesta_new['sector'] = $request['sector'];
+        $propuesta_new['annos'] = $request['annos'];
+        $propuesta_new['meses'] = $request['meses'];
         $propuesta_new['estado'] = 2;
         // - - - - - - - - - - - - - - - - - - - - - - - -
         if ($request->hasFile('informe')) {
@@ -183,6 +188,7 @@ class PropuestaController extends Controller
         // - - - - - - - - - - - - - - - - - - - - - - - -
         // - - - - - - - - - - - - - - - - - - - - - - - -
         Propuesta::findOrFail($request['propuestas_id'])->update($propuesta_new);
+        unset($propuesta_new);
         $propuesta = Propuesta::findOrFail($request['propuestas_id']);
         // - - - - - - - - - - - - - - - - - - - - - - - -
         // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -199,9 +205,10 @@ class PropuestaController extends Controller
                 $primeraFase = $item;
             }
             PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
+            unset($componenteNew);
         }
         // - - - - - - - - - - - - - - - - - - - - - - - -
-        if ($request->hasFile('video')) {
+        /*if ($request->hasFile('video')) {
             $ruta = Config::get('constantes.folder_doc_proyectos');
             $ruta = trim($ruta);
             $video = $request->video;
@@ -214,21 +221,51 @@ class PropuestaController extends Controller
                 $primeraFase = $item;
             }
             PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
-        }
+            unset($componenteNew);
+        }*/
         //=========================================================
         //componentes Primera fase
         $sub_componentes = SubComponente::get();
         $cont =0;
         foreach ($sub_componentes as $sub_componente) {
-            if ($sub_componente->id >2) {
-                $componenteNew['sustentacion'] = $request['sustentacion'][$cont];
-                $componenteNew['estado'] = 2;
-                $primeraFase_ = PrimFaseComponente::where('propuestas_id',$request['propuestas_id'])->where('sub_componente_id',$sub_componente->id)->get();
-                foreach ($primeraFase_ as $item) {
-                    $primeraFase = $item;
+            if ($sub_componente->id > 1) {
+                if ($sub_componente->id === 2) {
+                    $componenteNew['video'] = $request['video'];
+                    $componenteNew['estado'] = 2;
+                    $primeraFase_ = PrimFaseComponente::where('propuestas_id',$request['propuestas_id'])->where('sub_componente_id',2)->get();
+                    foreach ($primeraFase_ as $item) {
+                        $primeraFase = $item;
+                    }
+                    PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
+                    unset($componenteNew);
+                }elseif($sub_componente->id === 31){
+                    if ($request->hasFile('excel')) {
+                        $ruta = Config::get('constantes.folder_doc_proyectos');
+                        $ruta = trim($ruta);
+                        $excel = $request->excel;
+                        $nombre_doc = time() . '-' . utf8_encode(utf8_decode($excel->getClientOriginalName()));
+                        $excel->move($ruta, $nombre_doc);
+                        $componenteNew['excel'] = $nombre_doc;
+                        $componenteNew['estado'] = 2;
+                        $primeraFase_ = PrimFaseComponente::where('propuestas_id',$request['propuestas_id'])->where('sub_componente_id',31)->get();
+                        foreach ($primeraFase_ as $item) {
+                            $primeraFase = $item;
+                        }
+                        PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
+                        unset($componenteNew);
+                    }
+
+                } else {
+                    $componenteNew['sustentacion'] = $request['sustentacion'][$cont];
+                    $componenteNew['estado'] = 2;
+                    $primeraFase_ = PrimFaseComponente::where('propuestas_id',$request['propuestas_id'])->where('sub_componente_id',$sub_componente->id)->get();
+                    foreach ($primeraFase_ as $item) {
+                        $primeraFase = $item;
+                    }
+                    PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
+                    unset($componenteNew);
+                    $cont++;
                 }
-                PrimFaseComponente::findOrFail($primeraFase->id)->update($componenteNew);
-                $cont++;
             }
         }
         //=========================================================
@@ -409,5 +446,24 @@ class PropuestaController extends Controller
             $q->where('rol_id', 4);
         })->get();
         return view('intranet.propuestas.emprendedor.index', compact('emprendedores'));
+    }
+
+    public function exportar_notas($id){
+        $propuesta = Propuesta::findOrFail($id);
+        $componentes = Componente::get();
+        $notas=[];
+        foreach ($componentes as $componente) {
+            $nota_componente =0;
+            foreach ($propuesta->componentesFaseUno as $componenteFaseUno) {
+                if ($componenteFaseUno->subcomponente->componente_id === $componente->id) {
+                    $nota_componente+= $componenteFaseUno->not_promedio;
+                }
+            }
+            $componente['promedio'] = $nota_componente/$componente->sub_componentes->count();
+        }
+        $data=['propuesta' => $propuesta,'componentes'=>$componentes];
+        $pdf = PDF::loadView('intranet.propuestas.admin.exportar.exportar_pdf',$data);
+
+        return $pdf->download('Reporte notas '. $propuesta->codigo .'.pdf');
     }
 }

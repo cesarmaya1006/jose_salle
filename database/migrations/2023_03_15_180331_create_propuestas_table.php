@@ -25,6 +25,9 @@ class CreatePropuestasTable extends Migration
             $table->float('promedio_primera')->nullable();
             $table->float('promedio_segunda')->nullable();
             $table->string('informe',255)->nullable();
+            $table->string('sector',255)->nullable();
+            $table->string('annos',255)->nullable();
+            $table->string('meses',255)->nullable();
             $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->charset = 'utf8';
